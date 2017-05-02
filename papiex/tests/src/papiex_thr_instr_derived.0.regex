@@ -1,0 +1,23 @@
+^Num. of threads.*4$
+^Derived Metrics:$
+^MFL[OI]PS\D+\d+\.\d\d$
+^IPC\D+\d\.\d\d$
+^CPU Utilization\D+\d\.\d\d$
+^I/O Cycles %\D+0.00$
+^Multiplex Counts
+^Cycles\s*\.+\s*\S{6,18}$
+^Instructions.*\.+\s*\S{6,18}$
+^\s+Derived Metrics:$
+^\s+MFL[OI]PS\D+\d+\.\d\d$
+^\s+IPC\D+\d\.\d\d$
+^\s+CPU Utilization\D+\d\.\d\d$
+^\s+Multiplex Counts
+^\s+Cycles\s*\.+\s*\S{6,18}.*%
+^\s+Instructions.*\.+\s*\S{6,18}.*%
+\s*Function flops at 0x\S+, File: papiex_flops.c, Function: flops, Line: 16
+^\s+min\s+max\s+mean
+^Real cycles\s*:\s+\S+\s+\S+\s+\S+
+^I/O cycles\s*:\s+\d+\s+\d+\s+\d+
+^Real cycles\s*\.+\s*\S{6,18}$
+\s+Executions\s*\.+\s+4$
+^\s+Real cycles\s*\.+\s+\S{6,18}$

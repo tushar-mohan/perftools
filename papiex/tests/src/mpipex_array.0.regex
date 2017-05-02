@@ -1,0 +1,11 @@
+mpiP: Storing mpiP output in \[./mpipex_array.*mpi
+ ID Lev File/Address        Line Parent_Funct             MPI_Call
+.*\d+   0 mpipex_array.c        65 main                     Send
+.*\d+   0 mpipex_array.c        83 main                     Reduce
+.*\d+   0 mpipex_array.c        64 main                     Send
+.*\d+   0 mpipex_array.c        78 main                     Recv
+.*\d+   0 mpipex_array.c        77 main                     Recv
+.*\d+   0 mpipex_array.c       112 main                     Send
+.*\d+   0 mpipex_array.c       104 main                     Recv
+.*\d+   0 mpipex_array.c       115 main                     Reduce
+.*\d+   0 mpipex_array.c       113 main                     Send

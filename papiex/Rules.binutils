@@ -1,0 +1,22 @@
+ifneq (,$(findstring HAVE_BINUTILS,$(DEFINES)))
+    DEFINES += -DHAVE_BINUTILS
+    ifneq ($(BINUTILS_PREFIX),)
+       	BINUTILS_INC_PATH ?= $(BINUTILS_PREFIX)/include
+      	BINUTILS_LIB_PATH ?= $(BINUTILS_PREFIX)/lib
+       	DEFINES += -I$(BINUTILS_INC_PATH)
+       	BINUTILS_LDFLAGS ?= -L$(BINUTILS_LIB_PATH)
+       	export BINUTILS_LDFLAGS
+    endif
+    BINUTILS_LIB_PATH ?= /usr/lib
+    export BINUTILS_LIB_PATH
+    LIBIBERTY_STATIC=$(shell ls -1 $(BINUTILS_LIB_PATH)/libiberty*.a 2> /dev/null | tail -n 1)
+    ifeq (,$(findstring libiberty,$(LIBIBERTY_STATIC)))
+            $(error No libiberty found in $(BINUTILS_LIB_PATH)/libiberty*.a.)
+    endif
+    export LIBIBERTY_STATIC
+    LIBBFD_STATIC=$(shell ls -1 $(BINUTILS_LIB_PATH)/libbfd*.a 2> /dev/null | tail -n 1)
+    ifeq (,$(findstring libbfd,$(LIBBFD_STATIC)))
+            $(error No libbfd found in $(BINUTILS_LIB_PATH)/libbfd*.a.)
+    endif
+    export LIBBFD_STATIC
+endif

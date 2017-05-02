@@ -1,0 +1,6 @@
+I/O stats:
+^\sFile.*zero.*$
+^\s*fwrite.*$
+^\s*calls.*100$
+^\s*bytes.*1\.04858e\+08$
+^\s*MB/s.*\d{1,3}$

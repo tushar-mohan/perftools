@@ -1,0 +1,16 @@
+#%Module1.0#####################################################################
+# vi:set filetype=tcl:
+conflict papi
+
+proc ModulesHelp { } {
+    puts stderr "	This module provides open-source papiex"
+}
+
+
+set handoff [file normalize [file dirname $ModulesCurrentModulefile] ]
+
+prepend-path 	 PATH $handoff/bin
+prepend-path     MANPATH $handoff/man
+prepend-path     MANPATH $handoff/share/man
+prepend-path     LD_LIBRARY_PATH $handoff/lib
+

@@ -1,0 +1,140 @@
+<html>
+   <title>Papiex Home Page</title>
+<h1>PapiEx - Execute arbitrary application and measure hardware performance counters with PAPI</h1>
+
+<b>PapiEx</b> is a performance analysis tool designed to transparently and passively measure
+the hardware performance counters of an application using <a HREF="http://icl.cs.utk.edu/papi">PAPI</a>. It uses <a HREF="http://icl.cs.utk.edu/~mucci/monitor">Monitor</a> to
+to effortlessly intercept process/thread creation/destruction. It measures the <b>entire run</b>
+of an application. By default this includes all subprocesses. It is not a tool for selective 
+instrumentation, for that you should
+use <a HREF="http://www.cs.uoregon.edu/research/paracomp/tau/tautools">TAU</a> or possibly 
+<a HREF="http://www.cs.utk.edu/~mucci/dynaprof">DynaProf</a>. <b>PapiEx</b>'s goal is to be a
+Linux substitute for the <b>perfex</b> command found in SGI's Speedshop. <b>PapiEx</b> is fairly
+simple to build, install and use. For a more full featured tool, please consider the excellent 
+<a href="http://perfsuite.ncsa.uiuc.edu">PerfSuite</a> distribution from Rick Kufrin at NCSA.
+The most up to date documentation for monitor is always found in the <a href="papiex-man.html">man page</a>. 
+
+<h3>Features</h3>
+<ul>
+<li> No external dependencies other than <a HREF="http://icl.cs.utk.edu/~mucci/monitor">Monitor</a> and <a HREF="http://icl.cs.utk.edu/papi">PAPI</a>.
+<li> Supports <b>papiex_start()/papiex_stop()</b> calipers in user code. <a HREF="papiex_start-man.html">man page</a>.
+<li> Can report all sorts of memory usage.
+<li> Supports PAPI multiplexing.
+<li> Supports automatic counting of useful available events for the architecture with a single flag (-a).
+<li> Automatically detects threaded executables.
+<li> Works for MPI and threaded-MPI executables. 
+<li> Has special support for MPICH, which avoids the need to link papiex to the MPICH library.
+<li> Dumps aggregate statistics, such as mean/max/avg across threads and tasks.
+<li> Can use mpiP for automatic MPI call profiling. No linking of the target dynamic executables with the mpiP library is needed.
+<li> Works across variants of fork/exec and handles SIGINT/asserts/aborts properly.
+<li> Can dump out shell arguments for those not wanting to use the <b>papiex</b> driver program.
+<li> Supports counting native events (non-PAPI) and different counting domains.
+<li> Architecture independent build and <b>papiex-config</b> driver. <a HREF="papiex-config-man.html">man page</a>.
+</ul>
+
+<h3>Download and Installation</h3>
+<ul> 
+<li><a href="#CVS">CVS</a> is the best way to get the code.
+<li>Those without CVS access (?!) can find the most recent release (VERSION): <a href="papiex-VERSION.tar.gz">papiex-VERSION.tar.gz</a>
+<li> To build/install <b>Papiex</b>, please see the <A HREF="INSTALL">INSTALL</a> file.
+<li> To use <b>Papiex</b>, please see the <A HREF="papiex-man.html">man page</a>.
+</ul>
+
+<h3>Examples</h3>
+The best documentation is in the form of examples. This example ASSUMES you
+have successfully built AND installed <b>PapiEx</b> AND that you're in the platform specific build directory. 
+First we run emacs and count Total Cycles and Total Instructions redirecting the output from <b>stderr</b>(default) 
+to a file. Next we run the pthreads test case and tell <b>PapiEx</b> to create files.
+<pre>
+[mucci@localhost]$ papiex -e PAPI_TOT_CYC -e PAPI_TOT_INS emacs 2> sample.emacs
+[mucci@localhost]$ tests/papiex -e PAPI_TOT_CYC -e PAPI_TOT_INS tests/pthreads
+</pre>
+Here's the output: <a href="samples/sample.emacs">sample.emacs</a>, <a href="samples/sample.pthreads.1">sample.pthreads.1</a>, <a href="samples/sample.pthreads.2">sample.pthreads.2</a>, <a href="samples/sample.pthreads.3">sample.pthreads.3</a> and <a href="samples/sample.memory">sample.memory</a>.
+<br><br>
+
+<p><b>PapiEx</b> can automatically multiplex and count <b>useful</b> events available on your architecture. This
+is similar in intent to <b>perfex -a</b> and <b>hpmstat -a</b>
+<pre>
+[mucci@localhost]$ papiex -a find /usr 2> sample.find
+</pre>
+For statistical relevance, you should make sure that the run is reasonably long.
+<br><br>
+
+<p>Multithreaded executables are handled seamlessly. <b>PapiEx</b> creates an output file the
+name <I>cmd</I>.papiex.<I>host</I>.<I>pid</I>.<I>instance</I>.
+The user can prefix the output file name with <b>-p<I>prefix</I></b> flag. As an example:
+<pre>
+[mucci@localhost]$ papiex -pmystats_ ./thrspecific 2>sample.thrspecific
+</pre>
+The stderr <A HREF="samples/sample.thrspecific">output</A> contains the aggregate statistics across
+all five threads of the executable. Individual per-thread statistics are placed in a directory
+<PRE>mystats_thrspecific.papiex.localhost.localdomain.4444/task_0</PRE>
+Here are the files:
+<A HREF="samples/sample.thrspecific.0">thread_0.summary</A>, <A HREF="samples/sample.thrspecific.1">thread_1.summary</A>, 
+<A HREF="samples/sample.thrspecific.2">thread_2.summary</A>, <A HREF="samples/sample.thrspecific.3">thread_3.summary</A>, 
+<A HREF="samples/sample.thrspecific.4">thread_4.summary</A>.
+<br><br>
+
+<p>Now let's consider a more involved example with a threaded-MPI run.
+<pre>
+[mucci@localhost]$ mpirun -np 4 papiex -f /tmp bin/mpich2-mpi-thrspecific 2>sample.mpich2-mpi-thrspecific
+</pre>
+The <I>-f</I> flag instructs <b>PapiEx</b> to create all output files under <I>/tmp</I>.
+The aggregate statistics across all tasks (which in turn are aggregated across all the threads
+for the task) are written to stderr, and can be seen <A HREF="samples/sample.mpich2-mpi-thrspecific">here</A>.
+The per-task and per-thread statistics are placed in: 
+<PRE>/tmp/mpich2-mpi-thrspecific.papiex.localhost.localdomain.4613</PRE>
+Per-task summaries, which are averaged across all the threads of a task can be seen under this directory: 
+<A HREF="samples/sample.mpich2-mpi-thrspecific.task-0">task_0.summary</A>, 
+<A HREF="samples/sample.mpich2-mpi-thrspecific.task-1">task_1.summary</A>, 
+<A HREF="samples/sample.mpich2-mpi-thrspecific.task-2">task_2.summary</A>, 
+<A HREF="samples/sample.mpich2-mpi-thrspecific.task-3">task_3.summary</A>.
+The directory also contains per-task directories, which contain per-thread numbers as shown in the
+previous example.
+<br><br>
+
+<p>Finally, let's consider how <b>PapiEx</b> makes using <b>mpiP</b>, a light-weight library for scalable
+profiling of MPI calls, easy to use. Normally, <b>mpiP</b> needs to be linked into the target executable.
+The <b>PapiEx</b> driver allows seamless deployment of <b>mpiP</b> on <b>dynamically-linked</b> executables.
+Let's see this with an example:
+<pre>
+[mucci@localhost]$ mpirun -np 4 papiex -e PAPI_L1_DCM -M bin/mpich2-simple-mpi 2> sample.mpich2-simple-mpi
+</pre>
+In the example we instruct <b>PapiEx</b> to measure L1 data cache misses, and <b>also</b> do
+MPI profiling with <b>mpiP</b>. The stderr output can be viewed in
+<A HREF="samples/sample.mpich2-simple-mpi">sample.mpich2-simple-mpi</A>. The <b>mpiP</b> is stored in
+<A HREF="samples/sample.mpich2-simple-mpi.mpiP">mpich2-simple-mpi.mpiP.localhost.localdomain.4862.1</A>.
+The PAPI task statistics are stored in: <PRE>mpich2-simple-mpi.papiex.localhost.localdomain.4862</PRE>
+<br>
+
+<A name=CVS>
+<h3>CVS Access</h3>
+</A>
+
+Currently, the best way to get <b>PapiEx</b> is to get it directly from CVS. You can <a href="http://icl.cs.utk.edu/viewcvs/viewcvs.cgi/OSPAT/iotrack">access the CVS repository</a> with your browser or use the anonymous CVS pserver. Just hit enter when asked for the password.
+<pre>
+% setenv CVSROOT :pserver:anonymous@cvs.cs.utk.edu:/cvs/homes/ospat
+% cvs login
+Password: 
+% cvs co papiex
+</pre>
+
+<h3>Testing</h3>
+The distribution includes a 'make test' phase. The current release has been tested on:
+<ul>
+<li>i686 (Pentium III) / Fedora Core 3
+<li>x86_64 (AMD 64-bit) / Suse 9 
+<li>ia64 (Itanium 2) / Debian 3.0
+<li>x86_64 (Intel EM64T) / Fedora Core 3
+<li>i686 (Pentium IV) / Redhat 9
+<li>PPC32 (750FX) 
+<li>PPC64 (G5) 
+</ul>
+
+<h3>Bug Reports</h3>
+PAPI bugs should be submitted to the <a HREF="mailto:ospat-devel@cs.utk.edu">PAPI Mailing List</a>.
+<h3>Authors</h3>
+<b>PapiEx</b> was written by <a HREF="http://www.cs.utk.edu/~mucci">Philip J. Mucci</a> of the <a HREF="http://icl.cs.utk.edu">Innovative Computing Laboratory</a> and Tushar Mohan of <a HREF="http://www.sicortex.com">SiCortex Inc.</a>
+<h3>Copyright</h3>
+This software is <b>OPEN SOURCE</b>.  If you incorporate any portion of this software, we would appreciate an acknowledgement in the appropriate places. 
+</html>

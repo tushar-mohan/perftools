@@ -1,0 +1,8 @@
+^Derived Metrics:$
+^IPC\D+\d\.\d\d$
+^CPU Utilization\D+\d\.\d\d$
+^Multiplex Counts
+^Cycles\D+\S{6,12}$
+^Instructions\D+\S{6,12}$
+^Proc usecs\s*\.+\s*\S{1,18}$
+^I/O cycles\s*\.+\s*\S{1,18}$

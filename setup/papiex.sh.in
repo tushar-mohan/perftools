@@ -1,0 +1,21 @@
+called="${BASH_SOURCE[@]}"
+if [[ $called == $0 ]]; then
+  echo "You tried executing $0"
+  echo "Instead you need to source the script in your shell:"
+  echo "  source $0"
+    exit 1
+fi
+dir=$(dirname $called)
+
+case "$dir" in
+  /*) ;;
+  *) dir="${PWD}/$dir"
+esac
+
+test -d "$dir" || echo "Error: $dir does not exist."
+TOOLS_INSTALL_DIR="$dir"
+
+echo Loading tools from $TOOLS_INSTALL_DIR
+export PATH="$TOOLS_INSTALL_DIR/bin:$PATH"
+export MANPATH="$TOOLS_INSTALL_DIR/man:$TOOLS_INSTALL_DIR/share/man:$MANPATH"
+export LD_LIBRARY_PATH="$TOOLS_INSTALL_DIR/lib:$LD_LIBRARY_PATH"

@@ -1,0 +1,41 @@
+PAPI_VERSION="5.4.1"
+PAPI_URL="http://icl.cs.utk.edu/projects/papi/downloads/papi-$(PAPI_VERSION).tar.gz"
+PAPI_CONFIGURE_ARGS = --with-debug --prefix=$(DESTPREF) # --disable-perf_event_uncore --with-pfm-root=$(PWD)/libpfm
+
+.PHONY: checkout-papi build-papi install-papi clean-papi clobber-papi
+checkout-papi:
+	@if [ ! -d papi ]; then \
+	    echo "Downloading PAPI: $(PAPI_URL)" ; \
+	    ( curl  -o - "$(PAPI_URL)" | tar xzf - ) || \
+		( echo "Could not download PAPI. Try running this command again after downloading it from $(PAPI_URL) and placing it in $(PWD)/papi" ; exit 1 ) ; \
+	    mv papi-$(PAPI_VERSION) papi ; \
+	fi
+	@test -d papi
+
+configure-papi papi/src/Makefile: checkout-papi
+	(echo "  configuring papi" ; \
+	cd papi/src ; ./configure $(PAPI_CONFIGURE_ARGS))
+
+clean-papi:  
+	@if [ -d papi ]; then cd papi/src; [ ! -f Makefile ] || $(MAKE) clean; fi
+clobber-papi: clean-papi
+	@if [ -d papi ]; then rm -f papi/src/Makefile; fi
+
+$(LIBPAPI) build-papi install-papi: papi/src/Makefile
+	cd papi/src ; ./configure $(PAPI_CONFIGURE_ARGS)
+	cd papi/src; $(MAKE); $(MAKE) install install-man
+
+#### LIBPFM #############################
+# .PHONY: build-libpfm install-libpfm clean-libpfm clobber-libpfm
+# build-libpfm: 
+# 	echo "  building libpfm"
+# 	$(MAKE) -C libpfm LDCONFIG=true all 
+# 	$(MAKE) -C libpfm/examples EXAMPLESDIR=$(DESTPREF)/bin LDCONFIG=true install_examples 
+# $(LIBPFM) install-libpfm: build-libpfm
+# 	$(MAKE) -C libpfm PREFIX=$(DESTPREF) EXAMPLESDIR=$(DESTPREF)/bin LDCONFIG=true install
+# 	$(MAKE) -C libpfm/examples EXAMPLESDIR=$(DESTPREF)/bin LDCONFIG=true install_examples 
+# clean-libpfm:
+# 	$(MAKE) -C libpfm clean 
+# clobber-libpfm: clean-libpfm
+# 	$(MAKE) -C libpfm distclean
+#######################################

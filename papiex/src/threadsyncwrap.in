@@ -1,0 +1,15 @@
+papiex_threadsyncprof
+#include <pthread.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+int pthread_barrier_wait(pthread_barrier_t *__barrier)
+int pthread_mutex_lock(pthread_mutex_t *__mutex)
+int pthread_mutex_timedlock(pthread_mutex_t *__restrict __mutex, __const struct timespec *__restrict __abstime)
+void omp_set_lock(unsigned long *lock)
+void omp_set_nest_lock(unsigned long *lock)
+void ompc_barrier()
+int semop (int __semid, struct sembuf *__sops, size_t __nsops)
+int semtimedop (int __semid, struct sembuf *__sops, size_t __nsops, __const struct timespec *__timeout)
+

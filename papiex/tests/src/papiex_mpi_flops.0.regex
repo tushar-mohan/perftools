@@ -1,0 +1,9 @@
+^Num. of MPI tasks.*4$
+^Cycles\s*\.+\s*\S{6,18}$
+^\s+min\s+max\s+mean
+^Real cycles\s*:\s+\S+\s+\S+\s+\S+
+^MPI cycles\s*:\s+0\s+0\s+0
+^I/O cycles\s*:\s+\S+\s+\S+\s+\S+
+^Real cycles\s*\.+\s+\S{6,18}$
+^MPI cycles\s*\.+\s+0$
+^I/O cycles\s*\.+\s+\S{4,12}$

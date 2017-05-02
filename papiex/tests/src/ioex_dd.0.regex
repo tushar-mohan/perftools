@@ -1,0 +1,9 @@
+I/O stats:
+^File.*/dev/zero.*$
+^File.*zero.*$
+^\s*flags.*O_WRONLY|O_CREAT|O_TRUNC$
+^\s*read.*$
+^\s*write.*$
+^\s*calls.*100$
+^\s*bytes.*1\.04858e\+08$
+^\s*MB/s.*\d{2,3}$

@@ -1,0 +1,258 @@
+.TH PAPIEX 1 "Oct 2015"
+.SH NAME
+papiex \- transparently measure hardware performance events of an application with PAPI
+
+.SH SYNOPSIS
+
+\fBpapiex\fP [\fI-dhisVqnwlUKISGQarx\fP] [\fI--classic\fP] [\fI-f output-dir\fP] [\fI-p prefix\fP] [\fI-o output-file\fP] [\fI-e papi-event\fP] [\fI-m[<interval>]\fP] [\fI-L papi-event\fP] [\fI--gnu\fP] [\fI--pathscale[=loop,func,all]\fP] [\fI-M [mpip_opts]\fP] [\fI--no-io-prof\fP] [\fI--no-threadsync-prof\fP] [--no-mpi-gather] [\fI--no-mpi-prof\fP] [\fI--no-summary\fP] [\fI--no-derived\fP] [\fI--no-scientific\fP] [\fI--no-ld-path\fP] [\fI--use-papi-presets\fP] [\fI--spec=spec-file] [--csv] [--] command [args ...]
+
+\fBpapiex\fP -- command args ...
+
+\fBpapiex\fP command
+
+
+.SH DESCRIPTION
+\fBpapiex\fP is a PAPI-based program for measuring hardware performance events of an application using the command-line. It supports both PAPI preset events and native events. It supports multiple threads of execution as well, including pthreads and OpenMP threads. For MPI programs, \fBpapiex\fP can gather statistics across tasks. \fBpapiex\fP also measures the total time spent in I/O and MPI calls. 
+
+The default settings are equivalent to typing:
+
+\fBpapiex\fP -u -e PAPI_TOT_CYC -e PAPI_FP_INS
+
+If your processor doesn't support counting of floating point operations (like the UltraSparc II and the original AMD Athlon) then PAPI_FP_INS or PAPI_TOT_INS is used instead (in order of availability).
+
+\fBpapiex\fP honors the environment variable \fBPAPIEX_DEFAULT_ARGS\fP. The contents of this variable are appended to the command-line arguments every time \fBpapiex\fP is invoked. It is suggested that platform-wide arguments be set via this variable.
+
+.SH OPTIONS
+
+.TP
+\fI--\fP 
+This is the standard separator telling \fBpapiex\fP to terminate its option processing and pass the rest of the command line to the underlying shell. Use this if your application takes command line arguments. 
+
+Example: \fBpapiex\fP -- ls -a
+
+.TP
+\fI-a\fP
+Monitor useful events available on the architecture automatically. This implicitly enables multiplexing (see the \fI-m\fP flag) and memory monitoring (see the \fI-x\fP flag). Please note, this flag is the source of many problems, and errors in counts. Do not use this flag, if all you need to measure is one or two events. Multiplexing adds overhead and count errors, so use with caution.
+
+.TP
+\fI--csv\fP
+Output CSV suitable for easy parsing by other tools.
+
+.TP
+\fI--classic\fP
+Run papiex in the old classic mode. This option is provided for backwards compatibility. It may be removed in future releases. This option is silently ignored if \fI--csv\fP is used.
+
+.TP
+\fI-d\fP
+Enable debugging output. Repeat this option for more verbosity. 
+
+.TP
+\fI-e <event>\fP 
+Monitor the event as named. The event is a symbol as listed in the output from either the \fI-l\fP or \fI-L\fP flag. You may specify more than one event. If you specify more than the number of physical registers as listed with the \fI-i\fP flag, you must enable multiplexing with \fI-m\fP otherwise an error will be reported. 
+
+.TP
+\fI-f <output directory>\fP
+All output of \fBpapiex\fP is created under the specified output directory. If the directory does not exist, it is created. By default, all output is placed under the working directory. 
+
+.TP
+\fI-h\fP 
+Print the usage information.
+
+.TP
+\fI-i\fP
+Print information about the host processor.
+
+.TP
+\fI-I\fP
+Measure hardware counters in transient mode. This mode may not be supported on your processor. Some CPU's execute interrupt/TLB miss handlers in an entirely different privelege level. If your processor does not support this level, you will get an error when \fBpapiex\fP goes to set up the counters. See, also \fI-K\fP, \fI-U\fP and \fI-S\fP flags for other modes.
+
+.TP
+\fI-K\fP
+Measure hardware counters in kernel mode. See, also \fI-I\fP, \fI-U\fP and \fI-S\fP flags for other modes.
+
+.TP
+\fI-l\fP
+Print a list of the available PAPI presets and native events.
+
+.TP
+\fI-L event\fP
+Print a full description of event.
+
+.TP
+\fI-m[<interval>]\fP
+Enable counter multiplexing to measure more events than the number of physical counters available. The number of counters can be discovered with the \fI-i\fP flag. The interval is specified in Hz; it is optional and defaults to 10 (Hz). Please note, this flag is the source of many problems, and errors in counts. Do not use this flag, if all you need to measure is one or two events. Multiplexing adds overhead and count errors, so use with caution.
+
+.TP
+\fI-M [mpiP options]\fP
+Apart from measuring hardware events, load the mpiP library to measure MPI characteristics as well. The behavior is unspecified if the program doesn not use MPI. Optional arguments for the mpiP library may follow the \fI-M\fP. This option is only available if \fBpapiex\fP was compiled with mpiP support.
+
+.TP
+\fI-n\fP
+Do NOT create ANY output files. By default, in addition to writing to the terminal, \fBpapiex\fP creates files (and directories) containing its output. See, also \fI-w\fP. This argument is silently ignored unless \fI--classic\fP is also used.
+
+.TP
+\fI-o <output-file>\fP
+By default \fBpapiex\fP dumps it output in a file/directory named <cmd>.papiex.<host>.<pid>.<instance>. The \fI-o\fP flag, instead causes the output to be sent to the user-supplied path. For multithreaded and MPI runs, its behavior can seem confusing, and you probably should use \fI-f\fP instead.
+
+.TP
+\fI-p <prefix>\fP
+By default \fBpapiex\fP dumps it output in a file/directory named <cmd>.papiex.<host>.<pid>.<instance>. The \fI-p\fP flag causes <prefix> to be prepended to the output name. This is useful for MPI and multithreaded runs. For readibility, it is a good idea to have a separator, such as . (dot), at the end of your prefix. 
+
+.TP
+\fI-q\fP
+Print information in a less verbose format. This is just the counter value followed by the counter name. The only additional information printed is the timing information and any thread identifiers. It is printed right justified with a width of 16 places. This option is currently not compatible with \fI-r\fP.
+
+.TP
+\fI-r\fP
+Report resources used by the program, as reported by \fBgetrusage\fP(). Most of the time this doesn't work on Linux. This option is not compatible with \fI-q\fP.
+
+.TP
+\fI-s\fP
+This option simply dumps the environment variable/value pairs to stdout and then exits. This is often useful for debugging.
+
+.TP
+\fI-S\fP
+Measure hardware counters in supervisor mode. See, also \fI-I\fP, \fI-U\fP and \fI-K\fP flags for other modes.
+
+.TP
+\fI-U\fP
+Measure hardware counters in user mode. This is the default counting mode. See, also \fI-I\fP, \fI-K\fP and \fI-S\fP flags for other modes.
+
+.TP
+\fI-w\fP
+Do NOT send output to the console. By default, in addition to writing files, \fBpapiex\fP emits output to the terminal. See also, \fI-n\fP. This option is very useful unless \fI--classic\fP is also used.
+
+.TP
+\fI-x\fP
+Report memory information for the process. Not all statistics will be available on all Linux kernel versions. Currently reported are peak virtual, peak resident, text, library, heap, stack, shared and locked memory. Numbers are in KB. This option is not compatible with \fI-q\fP.
+
+.TP
+\fI-V\fP 
+Print the version information of \fBpapiex\fP, the PAPI library and the PAPI header file \fBpapiex\fP was built against.
+
+.TP
+\fI-G --gnu\fP
+The \fBGCC\fP family has the capability to automatically instrument code through the use of -finstrument-functions on the compile line. \fBpapiex\fP automatically detects such instrumentation points and uses them as caliper points. This option enables this behavior. Instrumentation is only possible if papiex is compiled with binutils support.
+
+.TP
+\fI-Q --pathscale=[loop,func,all]\fP
+The \fBPathscale\fP family has the capability to automatically instrument code through the use of -finstrument-functions on the compile line. \fBpapiex\fP automatically detects such instrumentation points and uses them as caliper points. This option enables this behavior. If no argument is given with this option, then \fIall\fP is assumed. Instrumentation is only possible if papiex is compiled with binutils support.
+
+.TP
+\fI--no-io-prof\fP
+Do not profile I/O. See the NOTES section for the list of instrumented calls. I/O profiling is enabled by default, when papiex is compiled with profiling support. This flag is only meaningful when profiling support is enabled at compile-time.
+
+.TP
+\fI--no-threadsync-prof\fP
+Do not profile thread synchronization functions and mutexes. See the NOTES section for the list of instrumented calls. Thread profiling is enabled by default, when papiex is compiled with profiling support. This flag is only meaningful when profiling support is enabled at compile-time.
+
+.TP
+\fI--no-mpi-prof\fP
+Do not profile MPI. See the NOTES section for the list of instrumented calls.
+
+.TP
+\fI--no-mpi-gather\fP
+Do not use MPI to gather performance statistics across tasks. This option is only meaningful if the \fI--classic\fP mode is used, as the gather process is used to create global summary across all job ranks. This MPI gather can be a source of bugs in improperly written programs, and try using this option if you run into improper termination problems while using \fI--classic\fP in MPI programs.
+
+.TP
+\fI--no-summary\fP
+For MPI and multithreaded runs this prevents \fBpapiex\fP from printing a summary for data aggregated across threads/tasks.
+
+.TP
+\fI--no-derived\fP
+This prevents \fBpapiex\fP from calculating and printing useful derived metrics.
+
+.TP
+\fI--no-scientific\fP
+Disables printing output in scientific notation.
+
+.TP
+\fI--no-ld-path\fP
+Do not modify the LD_LIBRARY_PATH environment variable under any circumstances.
+
+.TP
+\fI--use-papi-presets\fP
+Normally, with \fI-a\fP, papiex uses the most useful native events for an architecture. Only if \fBpapiex\fP doesn't know your architecture, will it use PAPI presets. This tells papiex to instead use default PAPI presets even if it knows of native events for the architecture. Since the PAPI presets may be inaccurate, this option should not be used. This option is ignored unless \fI-a\fP is used.
+
+.TP
+\fI-E --spec=spec-file\fP
+Use the spec file at the user-supplied path instead of the standard one. Presumably, the user-supplied spec file has been customized to suit the user.
+
+.SH EXAMPLES
+The simplest use of \fBpapiex\fP on a unithreaded, single process program, would be as:
+
+\fBpapiex\fP /bin/ls
+
+In the above case, the performance measurement of PAPI_TOT_CYC would be written to a raw counts file. Additionally, a report will be generated with useful metrics like IPC (instructions per cycle).
+
+To monitor specific events explicitly, one would do:
+
+\fBpapiex\fP -e PAPI_L1_DCM -e PAPI_L1_TCM /bin/ls
+
+For multithreaded programs, you would simply invoke \fBpapiex\fP as above; the multiple threads are automatically handled. The output is written into a directory named <cmd>.papiex.<host>.<pid>.<instance>. The directory will contain 2 files for each thread: a raw counts file, and a derived metrics file. Additionally, a summary file will be generated for data across all threads.
+
+
+Multiple task programs using MPI are automatically handled by \fBpapiex\fP, as in:
+
+\fBmpirun\fP -np 4 \fBpapiex\fP -f /tmp ./pop
+
+In the above example, the output data files are stored in /tmp/pop.papiex.<host>.<pid>.<instance>. Summary statistics are generated across tasks, which may be disabled using \fI--no-summary\fP. The output files can be easily related to the host by the hostname embedded in the file name.
+
+You can also give a prefix to the output path. For e.g.,
+
+\fBpapiex\fP -f mystats. my-threaded-prog
+
+The command above will create a directory ./mystats.my-threaded-prog.papiex.<host>.<pid>.<instance>. For multithreaded and/or MPI programs, \fBpapiex\fP creates per-thread/per-task and global statistics summaries across threads/tasks, which are stored this directory.
+
+To facilitate ease of use, the \fI-a\fP flag is provided. This allows automatic monitoring of available interesting events. To enable multiple events to be monitored with limited counters, multiplexing (\fI-m\fP) is implicitly assumed. The flag also works for multihreaded and MPI programs. For any run more than a few minutes, it is \fBrecommended\fP that you start your quest for understanding performance with \fBpapiex -a\fP. E.g.,
+
+\fBpapiex\fP -a my-long-program
+
+
+To automatically instrument all the functions using an option provided by gcc, do:
+
+\fBgcc\fP \fB-finstrument-functions\fP -o my-prog my-prog.c
+
+And, now do:
+
+\fBpapiex\fP --gnu -a my-prog
+
+Such automatic instrumentation can easily add substantial overhead on execution, particularly if functions are invoked in a loop. Automatic instrumentation requires \fBpapiex\fP to be compiled with \fIbinutils\fP support.
+
+
+.SH NOTES
+If \fBpapiex\fP is compiled with profiling support, then the following calls are automatically instrumented:
+
+\fBI/O\fP - fread, fwrite, read, write, readv, writev, send, sendto, sendmsg, recv, recvfrom, recvmsg and sendfile.
+
+\fBThread synchronization\fP - pthread_barrier_wait, pthread_mutex_lock, pthread_mutex_timedlock, omp_set_lock, omp_set_nest_lock, ompc_barrier, semop, semtimedop
+
+\fBMPI\fP - MPI_Allgather, MPI_Allgatherv, MPI_Allreduce, MPI_Alltoall, MPI_Alltoallv, MPI_Barrier, MPI_Bcast, MPI_Bsend, MPI_Gather, MPI_Gatherv, MPI_Ibsend, MPI_Iprobe, MPI_Irecv, MPI_Irsend, MPI_Isend, MPI_Issend, MPI_Probe, MPI_Recv, MPI_Reduce, MPI_Reduce_scatter, MPI_Rsend, MPI_Scatter, MPI_Scatterv, MPI_Send, MPI_Sendrecv, MPI_Sendrecv_replace, MPI_Ssend, MPI_Start, MPI_Startall, MPI_Wait, MPI_Waitall, MPI_Waitany and MPI_Waitsome. 
+
+
+.SH SEE ALSO
+\fB
+fork(2),
+PAPI(3),
+getrusage(2),
+ld.so(8)
+\fP
+
+.SH BUGS and KNOWN ISSUES
+The \fI-a\fP and \fI-m\fP flags are the source of many errors introduced due to multiplexing. If you suspect the counts reported by \fIpapiex\fP,\fB try running your program without -a and -m.\fP
+
+If running percent in domain is much less that 100, try adding the flags \fI-UKIS\fP.
+
+The \fI--classic\fP mode is often a source of bugs, particularly during the MPI gather phase. If you face problems in MPI programs try not using \fI--classic\fP or try using it with the \fI--no-mpi-gather\fP flag.
+
+If your papiex is compiled with USE_MPI against a particular version/flavor of MPI, and you try running it on a program compiled against a different MPI version/flavor, your program will likely die a horrible death. In all cases ensure that the MPI your program was compiled against, the MPI papiex was compiled against, and the version of MPI you are running are identical.
+
+.LP
+Additional bugs should be reported to \fBpapiex\fP support e-mail address, mentioned when you run \fBpapiex\fP \fI-h\fP.
+
+.SH AUTHORS
+.B papiex
+was written by Philip J. Mucci and Tushar Mohan.
+
+.SH COPYRIGHT
+This software is \fBCOMPLETELY OPEN SOURCE\fP. If you incorporate any portion of this software, we would appreciate an acknowledgement in the appropriate places. 

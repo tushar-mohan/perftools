@@ -1,0 +1,47 @@
+#!/bin/tcsh -f
+set called=($_)
+
+if ( "$called" == "" ) then
+  echo "You tried executing $0"
+  echo "Instead you need to source the script in your shell:"
+  echo "  source $0"
+  exit 1
+endif
+
+if (! $?TOOLS_INSTALL_DIR) then
+  set dir = `dirname $called[2]`
+else
+  set dir = "$TOOLS_INSTALL_DIR"
+endif
+
+if ( "$dir" == "" ) then
+  echo "Could not determine the performance tools install directory."
+  echo "Perhaps you are using csh and not tcsh?"
+  echo
+  echo "Set the install directory as shown below, and try sourcing this script again"
+  echo "    setenv TOOLS_INSTALL_DIR <tools-install-directory-top-level>"
+  exit 1
+endif
+
+switch ( $dir )
+  case /*:
+    breaksw
+  default:
+    set dir = "$PWD/$dir"
+endsw
+
+set TOOLS_INSTALL_DIR "$dir"
+test -d "$TOOLS_INSTALL_DIR" || echo "Error: $TOOLS_INSTALL_DIR does not exist."
+
+echo Loading tools from $TOOLS_INSTALL_DIR
+setenv PATH "$TOOLS_INSTALL_DIR/bin:$PATH"
+if (! $?MANPATH) then
+  setenv MANPATH "$TOOLS_INSTALL_DIR/man:$TOOLS_INSTALL_DIR/share/man"
+else
+  setenv MANPATH "$TOOLS_INSTALL_DIR/man:$TOOLS_INSTALL_DIR/share/man:$MANPATH"
+endif
+if (! $?LD_LIBRARY_PATH) then
+  setenv LD_LIBRARY_PATH "$TOOLS_INSTALL_DIR/lib"
+else
+  setenv LD_LIBRARY_PATH "$TOOLS_INSTALL_DIR/lib:$LD_LIBRARY_PATH"
+endif
