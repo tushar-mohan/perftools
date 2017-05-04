@@ -66,9 +66,9 @@ distclean mrproper: clobber
 
 .PHONY: post-install
 post-install:
-	cp -a setup/papiex.sh.in $(DESTPREF)/papiex.sh
-	cp -a setup/papiex.csh.in $(DESTPREF)/papiex.csh
-	cp -a setup/papiex.module.in $(DESTPREF)/papiex
+	cp -a env/papiex.sh.in $(DESTPREF)/papiex.sh
+	cp -a env/papiex.csh.in $(DESTPREF)/papiex.csh
+	cp -a env/papiex.module.in $(DESTPREF)/papiex
 	@echo =======================================================================
 	@echo "Tools are installed in:"
 	@echo $(DESTPREF)
