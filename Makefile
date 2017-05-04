@@ -36,10 +36,10 @@ install: install-papiex post-install
 
 
 ifneq (,$(findstring $(LIBMONITOR),$(DEPS)))
-    include Makefile.monitor
+    include incl/Makefile.monitor
 endif
 ifneq (,$(findstring $(LIBPAPI),$(DEPS)))
-    include Makefile.papi
+    include incl/Makefile.papi
 endif
 
 # disabled PROFILING_SUPPORT

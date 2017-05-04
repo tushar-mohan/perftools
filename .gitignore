@@ -1,0 +1,7 @@
+papi/*
+*.o
+*.lo
+*.a
+*.la
+.deps
+.libs
