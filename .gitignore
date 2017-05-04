@@ -5,3 +5,4 @@ papi/*
 *.la
 .deps
 .libs
+perftools-*
