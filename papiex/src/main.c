@@ -395,8 +395,6 @@ void print_copyright(void)
   printf ("This software is covered by the MIT License (https://opensource.org/licenses/MIT)\n");
 #ifdef MAILBUGS
   printf ("\nPlease send all bug reports to: %s\n", MAILBUGS);
-#else
-  printf ("\nPlease send all bug reports to: ospat-devel@cs.utk.edu\n");
 #endif
 }
 

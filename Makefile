@@ -1,5 +1,6 @@
 CC := gcc
-export CC
+MAILBUGS := papiex-bugs@perftools.org
+export CC MAILBUGS
 
 PREFIX := $(PWD)/perftools-$(shell date +\%Y\%m\%d)
 DESTPREF := $(PREFIX)
@@ -43,20 +44,23 @@ ifneq (,$(findstring $(LIBPAPI),$(DEPS)))
     include incl/Makefile.papi
 endif
 
-.PHONY: install-papiex post-install clean clobber distclean test fulltest
+.PHONY: install-papiex post-install clean-papiex clobber-papiex clean clobber distclean test fulltest
 
 # disabled PROFILING_SUPPORT
 install-papiex: $(DEPS)
-	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) install
+	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
 
-clean: 
+clean-papiex:
 	cd papiex; $(MAKE) clean
-	@rm -rf papiex/x86_64-Linux
+
+clean: clean-papiex
 	@if [ -d papi ];then $(MAKE) clean-papi; fi
 	@if [ -d monitor ];then $(MAKE) clean-monitor; fi
 
-clobber: clean
-	@rm -rf papiex-install
+clobber-papiex clean-papiex:
+	@rm -rf papiex/x86_64-Linux
+
+clobber: clean clobber-papiex
 	@if [ -d papi ]; then $(MAKE) clobber-papi; fi
 	@if [ -d monitor ]; then $(MAKE) clobber-monitor; fi
 
