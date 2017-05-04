@@ -59,7 +59,7 @@ Now let's run the program under PapiEx. The `-a` automatically selects useful ha
     Doing 1000000000 iters. of a += b * c on doubles.
     papiex:
     papiex: 0.9.8 (Build Oct  9 2015/14:17:42)
-    papiex: Send bug reports to mmperftools-bugs@minimalmetrics.com
+    papiex: Send bug reports to papiex-bugs@perftools.org
     papiex:
     papiex: Storing raw counts data in [basic.papiex.supermicro.26719.1.txt]
     papiex:
@@ -382,7 +382,7 @@ Now run the executable under `papiex`:
     Doing 100000000 iters. of a += b * c on doubles.
     papiex:
     papiex: 1.0.0 (Build Nov 30 2015/17:20:44)
-    papiex: Send bug reports to mmperftools-bugs@minimalmetrics.com
+    papiex: Send bug reports to papiex-bugs@perftools.org
     papiex:
     papiex: Storing raw counts data in [caliper.papiex.163a34055b91.318.1.txt]
     papiex:
@@ -469,5 +469,5 @@ community participation to help find bugs and implement fixes.
 
 Please send your bug reports to: 
 
-    mmperftools-bugs@minimalmetrics.com
+    papiex-bugs@perftools.org
 
