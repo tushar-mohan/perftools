@@ -7,6 +7,9 @@ DESTPREF := $(PREFIX)
 LIBMONITOR := $(DESTPREF)/lib/libmonitor.so
 LIBPAPI := $(DESTPREF)/lib/libpapi.so
 
+# are we building monitor/papi? Or using a user-supplied one?
+# If the user has set MONITOR_PREFIX or MONITOR_INC_PATH+MONITOR_LIB_PATH
+# then we do not build monitor. Same goes for PAPI
 DEPS =
 ifeq (,$(MONITOR_PREFIX))
   ifeq (,$(MONITOR_INC_PATH))
@@ -15,7 +18,6 @@ ifeq (,$(MONITOR_PREFIX))
     endif
   endif
 endif
-
 ifeq (,$(PAPI_PREFIX))
   ifeq (,$(PAPI_INC_PATH))
     ifeq (,$(PAPI_LIB_PATH))
@@ -34,7 +36,6 @@ MONITOR_LIB_PATH ?= $(MONITOR_PREFIX)/lib
 
 install: install-papiex post-install
 
-
 ifneq (,$(findstring $(LIBMONITOR),$(DEPS)))
     include incl/Makefile.monitor
 endif
@@ -42,29 +43,26 @@ ifneq (,$(findstring $(LIBPAPI),$(DEPS)))
     include incl/Makefile.papi
 endif
 
+.PHONY: install-papiex post-install clean clobber distclean test fulltest
+
 # disabled PROFILING_SUPPORT
 install-papiex: $(DEPS)
 	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) install
 
-
-.PHONY: clean
 clean: 
 	cd papiex; $(MAKE) clean
 	@rm -rf papiex/x86_64-Linux
 	@if [ -d papi ];then $(MAKE) clean-papi; fi
 	@if [ -d monitor ];then $(MAKE) clean-monitor; fi
 
-.PHONY: clobber
 clobber: clean
 	@rm -rf papiex-install
 	@if [ -d papi ]; then $(MAKE) clobber-papi; fi
 	@if [ -d monitor ]; then $(MAKE) clobber-monitor; fi
 
-.PHONY: distclean mrproper
 distclean mrproper: clobber
 	@rm -rf papi perftools-*
 
-.PHONY: post-install
 post-install:
 	cp -a env/papiex.sh.in $(DESTPREF)/papiex.sh
 	cp -a env/papiex.csh.in $(DESTPREF)/papiex.csh
@@ -87,10 +85,8 @@ post-install:
 	@echo =======================================================================
 	@echo
 
-.PHONY: test
 test:
 	bash -c 'source $(DESTPREF)/papiex.sh; cd papiex; make quicktest'
 
-.PHONY: fulltest
 fulltest:
 	bash -c 'source $(DESTPREF)/papiex.sh; cd papiex; make test'
