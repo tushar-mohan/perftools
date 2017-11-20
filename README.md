@@ -2,8 +2,9 @@
 
 **PapiEx** provides a command-line interface to [PAPI](http://icl.cs.utk.edu/papi/)
 
-To build and install PapiEx, see [INSTALL.md](INSTALL.md). For a copy of the license,
+To build and install PapiEx, see the [build instructions](INSTALL.md). For a copy of the license,
 see the [COPYING](COPYING) file in the same directory.
+
 
 Table of Contents
 =================
@@ -29,7 +30,7 @@ Before you can use papiex, you must set your environment.
     $ module load /path/to/papiex-install/papiex (environment-modules)
 
 
-##Getting Started
+## Getting Started
 In your quest to understand application performance, you may find PapiEx to be a good starting point.
 
 Let's start with a simple unthreaded program that does nothing but compute some flops.
@@ -470,4 +471,3 @@ community participation to help find bugs and implement fixes.
 Please send your bug reports to: 
 
     papiex-bugs@perftools.org
-

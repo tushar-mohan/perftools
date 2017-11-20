@@ -57,7 +57,7 @@ clean: clean-papiex
 	@if [ -d papi ];then $(MAKE) clean-papi; fi
 	@if [ -d monitor ];then $(MAKE) clean-monitor; fi
 
-clobber-papiex clean-papiex:
+clobber-papiex:
 	@rm -rf papiex/x86_64-Linux
 
 clobber: clean clobber-papiex
@@ -94,3 +94,11 @@ test:
 
 fulltest:
 	bash -c 'source $(DESTPREF)/papiex.sh; cd papiex; make test'
+
+help:
+	@echo "The following targets are supported: "
+	@echo
+	@echo "    install   - Build and install papiex"
+	@echo "    test      - Quick sanity test"
+	@echo "    fulltest  - Run all testst"
+	@echo "    distclean - Remove all build files and restore to original pristine state"

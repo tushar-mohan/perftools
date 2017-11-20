@@ -105,7 +105,7 @@ $(build-dir):
 
 .PHONY: clean
 clean:
-	@rm -rf $(build-dir) man/*-man.html
+	@rm -rf $(build-dir) man/*.html
 
 .PHONY: clobber distclean
 distclean clobber: clean
