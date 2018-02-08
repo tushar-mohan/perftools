@@ -56,7 +56,7 @@ def dictlist2csv(dlist, outfile = None):
     # keys = sorted(dlist[0].keys())
     keys = sorted(list(keys_set))
     f = open(outfile, 'wb') if outfile else sys.stdout
-    dict_writer = csv.DictWriter(f, keys)
+    dict_writer = csv.DictWriter(f, keys, delimiter = ',', lineterminator='\n')
     dict_writer.writeheader()
     dict_writer.writerows(dlist)
 
