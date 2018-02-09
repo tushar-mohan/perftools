@@ -31,7 +31,7 @@ static int no_mpi_gather = 0; /* only used for classic papiex */
 #ifdef PROFILING_SUPPORT
   static int no_mpi_prof = 0;
   static int no_io_prof = 0;
-  static int no_threadsync_prof = 1;
+  static int no_threadsync_prof = 0;
 #else
   static int no_mpi_prof = 1;
   static int no_io_prof = 1;
@@ -718,9 +718,9 @@ static char * parse_args (int my_argc, char **my_argv, char **cmd, char ***cmd_a
     append_option(option_string, "NO_DERIVED_STATS");
   }
 
-#ifndef USE_MPI
-  no_mpi_prof = 1;
-#endif
+// #ifndef USE_MPI
+//   no_mpi_prof = 1;
+// #endif
 
   if (no_mpi_prof) {
     append_option(option_string, "NO_MPI_PROF");
@@ -1370,13 +1370,13 @@ main (int argc, char **argv)
   sprintf (papilib, "libpapi.so%c", preload_sep);
 #endif
 
-#ifdef USE_MPI
+// #ifdef USE_MPI
   if (!no_mpi_prof) {
     if (strlen (tmpstr2))
       strncat (tmpstr2, &preload_sep, 1);
     strcat(tmpstr2, MPI_PROFILE_LIB);
   }
-#endif
+// #endif
 
   if (!no_io_prof) {
     if (strlen (tmpstr2))

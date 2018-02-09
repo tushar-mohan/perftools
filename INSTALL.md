@@ -76,12 +76,6 @@ Build time arguments that are honored:
 
  * `MONITOR_PREFIX` or `MONITOR_INC_PATH` and `MONITOR_LIB_PATH`
  * `PAPI_PREFIX` or `PAPI_INC_PATH` and `PAPI_LIB_PATH`
- * `PROFILING_SUPPORT=1` to count I/O, MPI and thread-synchronization cycles
- * `USE_MPI=1` to build MPI tests
-	
-Note, papiex works for MPI programs even if `USE_MPI` is unset. However,
-adding `USE_MPI` builds tests for MPI. If `PROFILING_SUPPORT=1` is set
-then time spent in MPI is also reported. 
 
 To understand how to use papiex, see [README.md](README.md)
 

@@ -2,7 +2,7 @@ CC := gcc
 MAILBUGS := papiex-bugs@perftools.org
 export CC MAILBUGS
 
-PREFIX := $(PWD)/perftools-$(shell date +\%Y\%m\%d)
+PREFIX := $(PWD)/perftools
 DESTPREF := $(PREFIX)
 
 LIBMONITOR := $(DESTPREF)/lib/libmonitor.so
@@ -46,9 +46,8 @@ endif
 
 .PHONY: install-papiex post-install clean-papiex clobber-papiex clean clobber distclean test fulltest
 
-# disabled PROFILING_SUPPORT
 install-papiex: $(DEPS)
-	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
+	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 PROFILING_SUPPORT=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
 
 clean-papiex:
 	cd papiex; $(MAKE) clean

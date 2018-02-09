@@ -4,9 +4,9 @@ TARGETS += papiex papiex-config $(SONAME) papiex-specs papiex-report papiex-outp
 
 ifneq (,$(findstring PROFILING_SUPPORT,$(DEFINES)))
   TARGETS += libpapiexio.so libpapiexmpsync.so
-  ifneq (,$(findstring USE_MPI,$(DEFINES)))
+  # ifneq (,$(findstring USE_MPI,$(DEFINES)))
     TARGETS += libpapiexmpi.so 
-  endif
+  # endif
 endif
 
 OBJS=papiex.o eventinfo.o memory.o 

@@ -5,9 +5,9 @@ LIBNAME=papiex
 # If the API changed, bump this and reset all
 INTERFACE=1
 # If API has been added to but has backwards compat, bump this.
-AGE=0
+AGE=1
 # If anything changed at all bump this.
-REVISION=4
+REVISION=0
 
 VERSION=$(INTERFACE).$(AGE).$(REVISION)
 
@@ -18,10 +18,10 @@ DEFINES += -DUSE_MPI
 include Rules.mpi
 endif
 
-ifneq (,$(FULL_CALIPER_DATA))
+ifeq (1,$(FULL_CALIPER_DATA))
 DEFINES += -DFULL_CALIPER_DATA
 endif
-ifneq (,$(PROFILING_SUPPORT))
+ifeq (1,$(PROFILING_SUPPORT))
 DEFINES += -DPROFILING_SUPPORT
 endif
 ifneq (,$(HAVE_BINUTILS))
