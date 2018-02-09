@@ -207,8 +207,8 @@ void do_L_option(const PAPI_hw_info_t *hwi, const char *event)
 
 void do_V_option(const char *name, int version)
 {
-#ifdef MMPERFTOOLS_VERSION
-  printf("MMPerftools version %s\n", MMPERFTOOLS_VERSION);
+#ifdef PERFTOOLS_VERSION
+  printf("PerfTools version %s\n", PERFTOOLS_VERSION);
 #endif
   printf("%s driver version %s\n", name, PAPIEX_VERSION);
   printf("PAPI library version %u.%u.%u\nPAPI header version %u.%u.%u\n",

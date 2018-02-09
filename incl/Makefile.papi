@@ -2,7 +2,7 @@ PAPI_VERSION="5.4.1"
 PAPI_URL="http://icl.cs.utk.edu/projects/papi/downloads/papi-$(PAPI_VERSION).tar.gz"
 PAPI_CONFIGURE_ARGS = --with-debug --prefix=$(DESTPREF) # --disable-perf_event_uncore --with-pfm-root=$(PWD)/libpfm
 
-.PHONY: checkout-papi build-papi install-papi clean-papi clobber-papi
+.PHONY: checkout-papi
 checkout-papi:
 	@if [ ! -d papi ]; then \
 	    echo "Downloading PAPI: $(PAPI_URL)" ; \
@@ -12,15 +12,21 @@ checkout-papi:
 	fi
 	@test -d papi
 
-configure-papi papi/src/Makefile: checkout-papi
+.PHONY: configure-papi
+configure-papi papi/src/Makefile: 
+	[ -d papi ] || $(MAKE) checkout-papi
 	(echo "  configuring papi" ; \
 	cd papi/src ; ./configure $(PAPI_CONFIGURE_ARGS))
 
+.PHONY: clean-papi
 clean-papi:  
 	@if [ -d papi ]; then cd papi/src; [ ! -f Makefile ] || $(MAKE) clean; fi
+
+.PHONY: clobber-papi
 clobber-papi: clean-papi
 	@if [ -d papi ]; then rm -f papi/src/Makefile; fi
 
+.PHONY: build-papi install-papi
 $(LIBPAPI) build-papi install-papi: papi/src/Makefile
 	cd papi/src ; ./configure $(PAPI_CONFIGURE_ARGS)
 	cd papi/src; $(MAKE); $(MAKE) install install-man
