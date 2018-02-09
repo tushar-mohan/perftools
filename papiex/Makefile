@@ -5,18 +5,18 @@ LIBNAME=papiex
 # If the API changed, bump this and reset all
 INTERFACE=1
 # If API has been added to but has backwards compat, bump this.
-AGE=1
+AGE=2
 # If anything changed at all bump this.
-REVISION=0
+REVISION=1
 
 VERSION=$(INTERFACE).$(AGE).$(REVISION)
 
 # Put USE_MPI test first as it will change the 
 # the compilers to MPICC.
-ifneq (,$(USE_MPI))
-DEFINES += -DUSE_MPI
-include Rules.mpi
-endif
+# ifneq (,$(USE_MPI))
+# DEFINES += -DUSE_MPI
+# include Rules.mpi
+# endif
 
 ifeq (1,$(FULL_CALIPER_DATA))
 DEFINES += -DFULL_CALIPER_DATA
@@ -24,7 +24,7 @@ endif
 ifeq (1,$(PROFILING_SUPPORT))
 DEFINES += -DPROFILING_SUPPORT
 endif
-ifneq (,$(HAVE_BINUTILS))
+ifeq (1,$(HAVE_BINUTILS))
 DEFINES += -DHAVE_BINUTILS
 include Rules.binutils
 endif
