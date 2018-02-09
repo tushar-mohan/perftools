@@ -64,7 +64,7 @@ clobber: clean clobber-papiex
 	@if [ -d monitor ]; then $(MAKE) clobber-monitor; fi
 
 distclean mrproper: clobber
-	@rm -rf papi perftools-*
+	@rm -rf papi $(DESTPREF)
 
 post-install:
 	cp -a env/papiex.sh.in $(DESTPREF)/papiex.sh
