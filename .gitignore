@@ -6,3 +6,10 @@ papi/*
 .deps
 .libs
 perftools-*
+distfiles
+monitor
+libunwind
+hpctoolkit-externals
+hpctoolkit
+papiex/x86_64-Linux/
+papiex/man
