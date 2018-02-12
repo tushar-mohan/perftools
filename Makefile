@@ -1,9 +1,17 @@
-CC := gcc
-MAILBUGS := papiex-bugs@perftools.org
-export CC MAILBUGS
 
-PREFIX := $(PWD)/perftools
-DESTPREF := $(PREFIX)
+PERFTOOLS_VERSION=1.2.1
+DISTNAME=perftools-$(PERFTOOLS_VERSION)
+
+MAILBUGS := perftools-bugs@perftools.org
+
+ifeq (,$(PREFIX))
+  PREFIX = $(PWD)/$(DISTNAME)
+endif
+DESTPREF = $(PREFIX)
+
+CC := gcc
+export CC MAILBUGS PERFTOOLS_VERSION
+
 
 LIBMONITOR := $(DESTPREF)/lib/libmonitor.so
 LIBPAPI := $(DESTPREF)/lib/libpapi.so
@@ -67,20 +75,20 @@ distclean mrproper: clobber
 	@rm -rf papi $(DESTPREF)
 
 post-install:
-	cp -a env/papiex.sh.in $(DESTPREF)/papiex.sh
-	cp -a env/papiex.csh.in $(DESTPREF)/papiex.csh
-	cp -a env/papiex.module.in $(DESTPREF)/papiex
+	cp -a env/perftools.sh.in $(DESTPREF)/perftools.sh
+	cp -a env/perftools.csh.in $(DESTPREF)/perftools.csh
+	cp -a env/perftools.module.in $(DESTPREF)/perftools
 	@echo =======================================================================
 	@echo "Tools are installed in:"
 	@echo $(DESTPREF)
 	@echo
 	@echo "To use the tools"
 	@echo "----------------"
-	@echo "module load $(DESTPREF)/papiex"
+	@echo "module load $(DESTPREF)/perftools"
 	@echo "	   - or -"
-	@echo "source $(DESTPREF)/papiex.sh"
+	@echo "source $(DESTPREF)/perftools.sh"
 	@echo "	   - or -"
-	@echo "source $(DESTPREF)/papiex.csh"
+	@echo "source $(DESTPREF)/perftools.csh"
 	@echo
 	@echo "To test install:"
 	@echo "make test"
@@ -89,10 +97,10 @@ post-install:
 	@echo
 
 test:
-	bash -c 'source $(DESTPREF)/papiex.sh; cd papiex; make quicktest'
+	bash -c 'source $(DESTPREF)/perftools.sh; cd papiex; make quicktest'
 
 fulltest:
-	bash -c 'source $(DESTPREF)/papiex.sh; cd papiex; make test'
+	bash -c 'source $(DESTPREF)/pperftools.sh; cd papiex; make test'
 
 help:
 	@echo "The following targets are supported: "

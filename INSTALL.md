@@ -1,19 +1,15 @@
-PapiEx - PAPI Execute
-=====================
-
-PapiEx provides a command-line interface to PAPI for *shared executables*.
-
+PerfTools
+=========
 
 
 Requirements
 ------------
 
-The only requirement is the availability of gcc and standard Unix utilities
+The only requirement to build PerfTools is the availability of gcc and standard Unix utilities
 such as `make` and `autoconf`. Your system needs to support *shared libraries*.
 
 
 ## Enable access to CPU events
-
 If you are using papiex/PAPI as a normal user then you may need to enable
 collection of CPU event data for ordinary users. 
 
@@ -28,16 +24,6 @@ for most needs.
 
       # echo 0 > /proc/sys/kernel/perf_event_paranoid
 
-
-Dependencies
-------------
-
-* PAPI (> 4.0) : http://icl.cs.utk.edu/papi
-* Libmonitor   : http://libmonitor.googlecode.com
-
-Both these dependencies are included in this papiex git repository. 
-You also have the option build papiex against a pre-installed version of
-PAPI or libmonitor.
 
 
 Build PapiEx

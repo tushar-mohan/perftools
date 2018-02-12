@@ -3,7 +3,7 @@
 conflict papi
 
 proc ModulesHelp { } {
-    puts stderr "	This module provides open-source papiex"
+    puts stderr "	This module provides open-source perftools"
 }
 
 
