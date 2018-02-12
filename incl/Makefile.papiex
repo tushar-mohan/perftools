@@ -1,0 +1,8 @@
+install-papiex: $(DEPS)
+	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 PROFILING_SUPPORT=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
+
+clean-papiex:
+	cd papiex; $(MAKE) clean
+
+clobber-papiex:
+	@rm -rf papiex/x86_64-Linux

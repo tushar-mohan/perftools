@@ -1,0 +1,91 @@
+HPCTOOLKIT_VERSION="3932904"
+HPCTOOLKIT_URL="https://github.com/HPCToolkit/hpctoolkit.git"
+HPCTOOLKIT_EXTERNALS_VERSION="9694622"
+HPCTOOLKIT_EXTERNALS_URL="https://github.com/HPCToolkit/hpctoolkit-externals.git"
+
+
+.PHONY: unpack-hpctoolkit
+unpack-hpctoolkit:
+	@if [ ! -d hpctoolkit ]; then \
+		[ ! -f distfiles/hpctoolkit-$(HPCTOOLKIT_VERSION).tar.bz2 ] || \
+		( echo "Unpacking distfiles/hpctoolkit-$(HPCTOOLKIT_VERSION).tar.bz2" ; \
+		  tar xjf distfiles/hpctoolkit-$(HPCTOOLKIT_VERSION).tar.bz2 ); \
+	fi
+
+.PHONY: checkout-hpctoolkit
+checkout-hpctoolkit: unpack-hpctoolkit
+	@if [ ! -d hpctoolkit ]; then \
+	    echo "Downloading hpctookit: $(HPCTOOLKIT_URL)" ; \
+	    git clone "$(HPCTOOLKIT_URL)" || \
+		( echo "Could not download hpctoolkit. Try running this command again after downloading it from $(HPCTOOLKIT_URL) and placing it in $(PWD)/hpctoolkit" ; exit 1 ) ; \
+		(mkdir -p distfiles; tar -cjf distfiles/hpctoolkit-$(HPCTOOLKIT_VERSION).tar.bz2 hpctoolkit) ; \
+	fi
+	@cd hpctoolkit && echo "Checking out hpcoolkit:$(HPCTOOLKIT_VERSION)" &&  git checkout -f $(HPCTOOLKIT_VERSION) 2>/dev/null
+
+.PHONY: unpack-hpctoolkit
+unpack-hpctoolkit-externals:
+	@if [ ! -d hpctoolkit-externals ]; then \
+		[ ! -f distfiles/hpctoolkit-externals-$(HPCTOOLKIT_EXTERNALS_VERSION).tar.bz2 ] || \
+		( echo "Unpacking distfiles/hpctoolkit-externals-$(HPCTOOLKIT_EXTERNALS_VERSION).tar.bz2" ; \
+		  tar xjf distfiles/hpctoolkit-externals-$(HPCTOOLKIT_EXTERNALS_VERSION).tar.bz2 ); \
+	fi
+
+.PHONY: checkout-hpctoolkit-externals
+checkout-hpctoolkit-externals: unpack-hpctoolkit-externals
+	@if [ ! -d hpctoolkit-externals ]; then \
+	    echo "Downloading hpctookit-externals: $(HPCTOOLKIT_EXTERNALS_URL)" ; \
+	    git clone "$(HPCTOOLKIT_EXTERNALS_URL)" || \
+		( echo "Could not download hpctoolkit-externals. Try running this command again after downloading it from $(HPCTOOLKIT_EXTERNALS_URL) and placing it in $(PWD)/hpctoolkit-externals" ; exit 1 ) ; \
+		(mkdir -p distfiles; tar -cjf distfiles/hpctoolkit-externals-$(HPCTOOLKIT_EXTERNALS_VERSION).tar.bz2 hpctoolkit-externals) ; \
+	fi
+	@cd hpctoolkit-externals && echo "Checking out hpctoolkit-externals:$(HPCTOOLKIT_EXTERNALS_VERSION)" &&  git checkout $(HPCTOOLKIT_EXTERNALS_VERSION) 2>/dev/null
+
+.PHONY: install-hpctoolkit-externals
+.PHONY: build-hpctoolkit-externals
+install-hpctoolkit-externals build-hpctoolkit-externals: hpctoolkit-externals/Makefile
+	@echo "  building hpctoolkit-externals"
+	cd hpctoolkit-externals; make all
+
+.PHONY: configure-hpctoolkit-externals
+hpctoolkit-externals/Makefile configure-hpctoolkit-externals: checkout-hpctoolkit-externals
+	@echo "  configuring hpctoolkit-externals"
+	cd hpctoolkit-externals; ./configure --without-libmonitor --with-libunwind=$(DESTPREF) --with-old-monitor=$(DESTPREF)
+
+.PHONY: clean-hpctoolkit-externals
+clean-hpctoolkit-externals: 
+	@if [ -d hpctoolkit-externals ]; then cd hpctoolkit-externals; [ ! -f Makefile ] || make clean; [ ! -f Makefile ] || make distclean; fi
+
+.PHONY: clobber-hpctoolkit-externals
+clobber-hpctoolkit-externals: clean-hpctoolkit-externals
+	@if [ -d hpctoolkit-externals ]; then cd hpctoolkit-externals && rm -fv Makefile; fi
+
+HPCTOOLKIT_PATCHES = $(wildcard patches/hpctoolkit/*)
+.PHONY: patch-hpctoolkit
+patch-hpctoolkit: 
+	@echo "  patching hpctoolkit"
+	@-cd hpctoolkit; for p in $(HPCTOOLKIT_PATCHES); do echo "applying $$p"; patch -N -p1 < ../$$p; done
+
+.PHONY: install-hpctoolkit
+install-hpctoolkit: build-hpctoolkit
+	cd hpctoolkit; make install
+
+.PHONY: build-hpctoolkit
+build-hpctoolkit: hpctoolkit/Makefile patch-hpctoolkit
+	@echo "  building hpctoolkit"
+	cd hpctoolkit; make
+
+# the -D__unbounded= is needed to build hpcrun-flat as otherwise it leads to syntax errors
+# the -DHAVE_DECL_BASENAME" is only needed to avoid redefining basename if binutils-dev is already installed
+# we map monitor_gettid -> monitor_get_thread_num for hpcrun as libmonitor doesn't proved monitor_gettid
+.PHONY: configure-hpctoolkit
+hpctoolkit/Makefile configure-hpctoolkit: checkout-hpctoolkit patch-hpctoolkit
+	@echo "  configuring hpctoolkit"
+	cd  hpctoolkit; ./configure --prefix=$(DESTPREF) --with-externals=$(PWD)/hpctoolkit-externals --with-papi=$(PAPI_PREFIX) --with-libunwind=$(DESTPREF) --with-libmonitor=$(DESTPREF) CXX="g++ -DHAVE_DECL_BASENAME=1 -DHPCRUN_PERFTOOLS" CC="gcc -D__unbounded= -Dmonitor_gettid=monitor_get_thread_num -DHPCRUN_PERFTOOLS"
+
+.PHONY: clean-hpctoolkit
+clean-hpctoolkit: 
+	@if [ -d hpctoolkit ]; then cd hpctoolkit; [ ! -f Makefile ] || make clean; fi
+
+.PHONY: clobber-hpctoolkit
+clobber-hpctoolkit: clean-hpctoolkit
+	@if [ -d hpctoolkit ]; then cd  hpctoolkit; rm -fv Makefile; fi

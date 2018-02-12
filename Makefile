@@ -1,4 +1,3 @@
-
 PERFTOOLS_VERSION=1.2.1
 DISTNAME=perftools-$(PERFTOOLS_VERSION)
 
@@ -43,7 +42,6 @@ MONITOR_PREFIX := $(DESTPREF)
 MONITOR_INC_PATH ?= $(MONITOR_PREFIX)/include
 MONITOR_LIB_PATH ?= $(MONITOR_PREFIX)/lib
 
-install: install-papiex post-install
 
 ifneq (,$(findstring $(LIBMONITOR),$(DEPS)))
     include incl/Makefile.monitor
@@ -52,31 +50,30 @@ ifneq (,$(findstring $(LIBPAPI),$(DEPS)))
     include incl/Makefile.papi
 endif
 
-.PHONY: minimal all install-papiex post-install clean-papiex clobber-papiex clean clobber distclean mrproper test fulltest
+include incl/Makefile.papiex
+include incl/Makefile.libunwind
+include incl/Makefile.hpctoolkit
 
-minimal: install-papiex
+.PHONY: install all install-papiex post-install clean-papiex clobber-papiex clean clobber distclean mrproper test fulltest
 
-all: minimal install-hpctoolkit
+install: install-papiex post-install
 
-install-papiex: $(DEPS)
-	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 PROFILING_SUPPORT=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
+all: install-papiex install-libunwind install-hpctoolkit-externals install-hpctoolkit post-install
 
-clean-papiex:
-	cd papiex; $(MAKE) clean
 
-clean: clean-papiex
+clean: clean-papiex clean-hpctoolkit clean-hpctoolkit-externals clean-libunwind
 	@if [ -d papi ];then $(MAKE) clean-papi; fi
 	@if [ -d monitor ];then $(MAKE) clean-monitor; fi
 
-clobber-papiex:
-	@rm -rf papiex/x86_64-Linux
-
-clobber: clean clobber-papiex
+clobber: clean
 	@if [ -d papi ]; then $(MAKE) clobber-papi; fi
 	@if [ -d monitor ]; then $(MAKE) clobber-monitor; fi
+	@if [ -d hpctoolkit ]; then $(MAKE) clobber-hpctoolkit; fi
+	@if [ -d hpctoolkit-externals ]; then $(MAKE) clobber-hpctoolkit-externals; fi
+	@if [ -d libunwind ]; then $(MAKE) clobber-libunwind; fi
 
 distclean mrproper: clobber
-	@rm -rf papi $(DESTPREF)
+	@rm -rf papi hpctoolkit hpctoolkit-externals libunwind $(DESTPREF)
 
 post-install:
 	cp -a env/perftools.sh.in $(DESTPREF)/perftools.sh
