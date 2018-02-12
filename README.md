@@ -1,6 +1,6 @@
 Perftools
 =========
-*Perftools* is a collection of performance tools for HPC environments.
+*PerfTools* is a collection of performance tools for HPC environments.
 The tools allow low-overhead measurement of CPU metrics, memory usage,
 I/O and MPI. 
 
@@ -20,10 +20,8 @@ part of the *Perftools* build process. Some of them are patched to support
 additional functionality. They are included with the distribution or if not
 found, downloaded automatically from the Internet and compiled.
 
-* [Libpfm](http://perfmon2.sourceforge.net/manv4/libpfm.html) (required)
 * [PAPI](http://icl.cs.utk.edu/papi/) (required)
 * [Libmonitor](https://code.google.com/p/libmonitor/) (required)
-* [mpiP](http://mpip.sourceforge.net/) (optional)
 * [Hpctoolkit](http://hpctoolkit.org/) (optional)
 * [libunwind](http://www.nongnu.org/libunwind/) (optional)
 
@@ -101,10 +99,6 @@ Then you are free to run:
     $ papiex ...
     $ mpirun ... papiex ...
 
-And similar for the other tools that may have been built:
-
-    $ mpirun ... mpipex ...
-    $ mpirun ... hpcex ...
 
 Documentation is available in the form of man pages and a Wiki here.
 

@@ -52,7 +52,11 @@ ifneq (,$(findstring $(LIBPAPI),$(DEPS)))
     include incl/Makefile.papi
 endif
 
-.PHONY: install-papiex post-install clean-papiex clobber-papiex clean clobber distclean test fulltest
+.PHONY: minimal all install-papiex post-install clean-papiex clobber-papiex clean clobber distclean mrproper test fulltest
+
+minimal: install-papiex
+
+all: minimal install-hpctoolkit
 
 install-papiex: $(DEPS)
 	cd papiex; $(MAKE) CC=$(CC) OCC=$(OCC) FULL_CALIPER_DATA=1 PROFILING_SUPPORT=1 MONITOR_INC_PATH=$(MONITOR_INC_PATH) MONITOR_LIB_PATH=$(MONITOR_LIB_PATH) PAPI_INC_PATH=$(PAPI_INC_PATH) PAPI_LIB_PATH=$(PAPI_LIB_PATH) PREFIX=$(DESTPREF) MAILBUGS=$(MAILBUGS) install
