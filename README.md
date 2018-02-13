@@ -1,4 +1,4 @@
-Perftools
+PerfTools
 =========
 *PerfTools* is a collection of performance tools for HPC environments.
 The tools allow low-overhead measurement of CPU metrics, memory usage,
@@ -25,15 +25,22 @@ found, downloaded automatically from the Internet and compiled.
 * [Hpctoolkit](http://hpctoolkit.org/) (optional)
 * [libunwind](http://www.nongnu.org/libunwind/) (optional)
 
+
 Getting the tools
 -----------------
 
       $ git clone https://github.com/tushar-mohan/perftools.git
 
-Setting up the Build Environment
---------------------------------
+
+Build Dependencies
+------------------
 `perftools` requires a number of operating system and build
 utilities, such `make`, GNU-toolchain, `autoconf`, MPI, etc.
+
+### Ubuntu/Debian
+
+      $ sudo apt-get install build-essential gcc g++ gfortran libtool autoconf \
+             cmake patch curl bzip2 environment-modules
 
 
 Build the tools
@@ -57,19 +64,44 @@ on the command-line of the build script, like:
 
       $ ./build.sh --all CC=icc CXX=iCC FORTRAN=ifort
 
+To point to a custom version of PAPI (not recommended):
+
+      $ ./build.sh PAPI_PREFIX=/path/to/papi/install
+
+      - or -
+
+      $ ./build.sh PAPI_INC_PATH=/path/to/papi/headers PAPI_LIB_PATH=/path/to/papi/lib
+
+
 You can also use `make` directly. Type `make help` for instructions.
 
-The build will download third-party dependencies during the build.
-If you prefer, you can download all the dependencies first with:
 
-      $ ./build --download
+Running the tools
+-----------------
 
-The build-system keeps a cached copy of the downloads in the
-`distfiles/` sub-directory to avoid repeating a download.
+### Enable access to CPU counters
+If you are using papiex/PAPI as a normal user then you will likely need to enable
+collection of CPU counter data for ordinary users.
+
+Check the existing value:
+
+      $ cat /proc/sys/kernel/perf_event_paranoid
+      1
+
+You need a value of `-1`, `0` or `1`. `0` allows collection of CPU event data.
+`1` also allows collection of kernel profiling data. `0` or `1` should suffice
+for most needs. Do the following as `root`:
+
+      # echo 0 > /proc/sys/kernel/perf_event_paranoid
+
+To learn more about using the tools, see [papiex/README.md](papiex/README.md)
 
 
 Testing the tools
-----------------
+-----------------
+
+Make sure you have [enabled access to CPU counters](#enable-access-to-cpu-counters),
+before running the commands below.
 
 To quickly test the tools:
 
@@ -101,6 +133,22 @@ Then you are free to run:
 
 
 Documentation is available in the form of man pages and a Wiki here.
+
+
+Platforms Tested
+----------------
+
+ * Haswell (Xeon(R) CPU E5-2698 v3), gcc 4.9.3
+ * Ivy Bridge (Family: 6  Model: 58  Stepping: 9), gcc 5.4.0, Linux 4.10.0
+ * POWER8E, gcc 4.8.5
+
+
+Troubleshooting
+---------------
+
+* If papiex complains of error adding events, check that you have [enabled
+  collection of CPU counters](#enable-access-to-cpu-counters) in the kernel.
+
 
 
 License

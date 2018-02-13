@@ -57,6 +57,7 @@ help:
 	@echo "The following targets are supported: "
 	@echo
 	@echo "    install   - Build and install papiex"
+	@echo "    all       - Build and install all tools, including hpctoolkit (15-20 minutes)"
 	@echo "    test      - Quick sanity test"
 	@echo "    fulltest  - Run all testst"
 	@echo "    distclean - Remove all build files and restore to original pristine state"
