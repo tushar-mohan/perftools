@@ -2,12 +2,23 @@ PAPI_VERSION="5.4.1"
 PAPI_URL="http://icl.cs.utk.edu/projects/papi/downloads/papi-$(PAPI_VERSION).tar.gz"
 PAPI_CONFIGURE_ARGS = --with-debug --prefix=$(DESTPREF) # --disable-perf_event_uncore --with-pfm-root=$(PWD)/libpfm
 
+.PHONY: unpack-papi
+unpack-papi:
+	@if [ ! -d papi ]; then \
+	    [ ! -f distfiles/papi-$(PAPI_VERSION).tar.bz2 ] || \
+	        ( echo "Unpacking distfiles/papi-$(PAPI_VERSION).tar.bz2" ; \
+	          tar xjf distfiles/papi-$(PAPI_VERSION).tar.bz2 ; \
+	          mv papi-$(PAPI_VERSION) papi ); \
+	fi
+
+
 .PHONY: checkout-papi
-checkout-papi:
+checkout-papi: unpack-papi
 	@if [ ! -d papi ]; then \
 	    echo "Downloading PAPI: $(PAPI_URL)" ; \
 	    ( curl  -o - "$(PAPI_URL)" | tar xzf - ) || \
 		( echo "Could not download PAPI. Try running this command again after downloading it from $(PAPI_URL) and placing it in $(PWD)/papi" ; exit 1 ) ; \
+	    (mkdir -p distfiles; tar -cjf distfiles/papi-$(PAPI_VERSION).tar.bz2 papi-$(PAPI_VERSION)) ; \
 	    mv papi-$(PAPI_VERSION) papi ; \
 	fi
 	@test -d papi
