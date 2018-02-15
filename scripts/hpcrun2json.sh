@@ -10,7 +10,7 @@
 # usage:
 # hpcrun2json <hpcrun-profile> ...
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 usage="
 	$(basename $0) <profile> [profile]...
 
@@ -83,7 +83,7 @@ echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$
 
 sed -n '/^Load/,/^File/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=lm "$awkScript"
 sed -n '/^File/,/^Procedure/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=file "$awkScript"
-sed -n '/^Procedure/,/^Loop/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=proc "$awkScript"
+sed -n '/^Procedure/,/^Loop/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=proc "$awkScript" | sed '$ s/,$//'
 
 echo "]"
 rm -f $tmpfile
