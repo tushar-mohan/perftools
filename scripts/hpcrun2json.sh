@@ -1,4 +1,33 @@
 #!/bin/bash
+
+# This script will convert one or more profiles generated using hpcrun-flat to JSON. 
+# The script is limited in the following ways:
+# - It can only be used on profile measuring ONE event
+# - The profiles be either for unthreaded programs, or must 
+#   aggregate across threads (-tall option for hpcrun-flat)
+
+# 
+# usage:
+# hpcrun2json <hpcrun-profile> ...
+
+usage="
+	$(basename $0) <profile> [profile]...
+
+	The profile(s) must be generated using hpcrun-flat with
+	exactly one event, and all thread profiles must be aggregated (-tall).
+	e.g.,
+	    $ mpirun -np 16 hpcrun-flat -e PAPI_TOT_CYC:99999 -tall ./mpi_wave
+	    $ $(basename $0) *.hpcrun-flat.*
+
+"
+
+VERSION="1.0.1"
+
+case $1 in
+    *help|-h|--h) echo "$usage" >&2; exit 0;;
+    -V|--version) echo "$VERSION" ; exit 0;;
+esac
+
 tmpfile=$(mktemp)
 hpcproftt -S *.hpcstruct --src=sum *.hpcrun-flat.* | sed '/Program/{n;N;d} ; s/^[ \t]*//; s/[ \t]*$//; s/^[-=]*$//g; s/%//g;  s/\s\+/ /g; /^$/d' > "$tmpfile"
 
@@ -49,7 +78,7 @@ EOF
 echo "["
 
 # FIXME: we use $events as if it has only a single event below
-echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"]}, '
+echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"], "version": '$VERSION'}, '
 
 
 sed -n '/^Load/,/^File/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=lm "$awkScript"
