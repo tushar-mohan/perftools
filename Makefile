@@ -26,6 +26,8 @@ post-install:
 	cp -a env/perftools.sh.in $(DESTPREF)/perftools.sh
 	cp -a env/perftools.csh.in $(DESTPREF)/perftools.csh
 	cp -a env/perftools.module.in $(DESTPREF)/perftools
+	cp -a scripts/hpcrun2json.sh $(DESTPREF)/bin/hpcrun2json
+	chmod +x $(DESTPREF)/bin/hpcrun2json
 	@echo =======================================================================
 	@echo "Tools are installed in:"
 	@echo $(DESTPREF)
