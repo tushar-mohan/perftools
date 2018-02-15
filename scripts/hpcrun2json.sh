@@ -10,7 +10,7 @@
 # usage:
 # hpcrun2json <hpcrun-profile> ...
 
-VERSION="1.0.3"
+VERSION="1.0.4"
 usage="
 	$(basename $0) <profile> [profile]...
 
@@ -65,7 +65,7 @@ END{
             # the total array index starts from 1, while rank starts from 0
             value = data[i][rank] * total[rank+1]
             if (value > 0) {
-                print "  {\\"collector\\": \\"hpcrun-flat\\", \\"type\\": \\"data\\", \\"scope\\": \\""scope"\\", \\"event\\": ", 0", \\"rank\\":", rank, ", \\"value\\": ", value, ", \\"key\\": \\""i"\\"}, "
+                print "  {\\"collector\\": \\"hpcrun-flat\\", \\"type\\": \\"data\\", \\"scope\\": \\""scope"\\", \\"event\\": ", 0", \\"rank\\":", rank, ", \\"value\\": ", value, ", \\"key\\": \\""i"\\"},"
             }
         }
     }
@@ -78,12 +78,11 @@ EOF
 echo "["
 
 # FIXME: we use $events as if it has only a single event below
-echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"], "version": "'$VERSION'"}, '
 
-
-sed -n '/^Load/,/^File/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=lm "$awkScript"
-sed -n '/^File/,/^Procedure/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=file "$awkScript"
-sed -n '/^Procedure/,/^Loop/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=proc "$awkScript" | sed '$ s/,$//'
+(   echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"], "version": "'$VERSION'"}, ';
+    sed -n '/^Load/,/^File/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=lm "$awkScript" ;
+    sed -n '/^File/,/^Procedure/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=file "$awkScript" ;
+    sed -n '/^Procedure/,/^Loop/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=proc "$awkScript" ) | sed '$ s/,$//'
 
 echo "]"
 rm -f $tmpfile
