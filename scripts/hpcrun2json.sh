@@ -10,6 +10,7 @@
 # usage:
 # hpcrun2json <hpcrun-profile> ...
 
+VERSION="1.0.2"
 usage="
 	$(basename $0) <profile> [profile]...
 
@@ -21,7 +22,6 @@ usage="
 
 "
 
-VERSION="1.0.1"
 
 case $1 in
     *help|-h|--h) echo "$usage" >&2; exit 0;;
@@ -48,7 +48,7 @@ echo "Ranks: $nranks" >&2
 total="$(sed -n '/^Program/{n;p}' $tmpfile)"
 
 ################################
-# AWK script                   #
+# awk script                   #
 ################################
 read -d '' awkScript << 'EOF'
 BEGIN {
@@ -72,13 +72,13 @@ END{
 }
 EOF
 ################################
-# End of AWK Script            #
+# End of awk Script            #
 ################################
 
 echo "["
 
 # FIXME: we use $events as if it has only a single event below
-echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"], "version": '$VERSION'}, '
+echo '  {"collector": "hpcrun-flat", "type": "metadata", "events": [{"name": "'$events'"}], "scopes": ["lm", "file", "proc"], "version": "'$VERSION'"}, '
 
 
 sed -n '/^Load/,/^File/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=lm "$awkScript"
