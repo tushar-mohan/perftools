@@ -10,7 +10,7 @@
 # usage:
 # hpcrun2json <hpcrun-profile> ...
 
-VERSION="1.0.4"
+VERSION="1.0.5"
 usage="
 	$(basename $0) <profile> [profile]...
 
@@ -29,7 +29,7 @@ case $1 in
 esac
 
 tmpfile=$(mktemp)
-hpcproftt -S *.hpcstruct --src=sum *.hpcrun-flat.* | sed '/Program/{n;N;d} ; s/^[ \t]*//; s/[ \t]*$//; s/^[-=]*$//g; s/%//g;  s/\s\+/ /g; /^$/d' > "$tmpfile"
+hpcproftt  --src=sum $* | sed '/Program/{n;N;d} ; s/^[ \t]*//; s/[ \t]*$//; s/^[-=]*$//g; s/%//g;  s/\s\+/ /g; /^$/d' > "$tmpfile"
 
 events=$(grep ev/smpl $tmpfile| awk '{print $2}'| cut -f1 -d.| uniq)
 nevents=$(echo -e "$events"|wc -l)
