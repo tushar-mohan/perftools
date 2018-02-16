@@ -10,7 +10,7 @@
 # usage:
 # hpcrun2json <hpcrun-profile> ...
 
-VERSION="1.0.5"
+VERSION="1.1.0"
 usage="
 	$(basename $0) <profile> [profile]...
 
@@ -75,7 +75,7 @@ EOF
 # End of awk Script            #
 ################################
 
-echo "["
+echo '{"precs": ['
 
 # FIXME: we use $events as if it has only a single event below
 
@@ -84,5 +84,5 @@ echo "["
     sed -n '/^File/,/^Procedure/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=file "$awkScript" ;
     sed -n '/^Procedure/,/^Loop/p' $tmpfile | sed '1d;$d' | awk -v t="$total" -v scope=proc "$awkScript" ) | sed '$ s/,$//'
 
-echo "]"
+echo "]}"
 rm -f $tmpfile
