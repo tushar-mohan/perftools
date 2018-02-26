@@ -7,7 +7,7 @@ INTERFACE=1
 # If API has been added to but has backwards compat, bump this.
 AGE=2
 # If anything changed at all bump this.
-REVISION=5
+REVISION=6
 
 VERSION=$(INTERFACE).$(AGE).$(REVISION)
 

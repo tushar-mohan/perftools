@@ -37,7 +37,7 @@ static int no_mpi_gather = 0; /* only used for classic papiex */
   static int no_io_prof = 1;
   static int no_threadsync_prof = 1;
 #endif
-static int use_papi_presets = 0;
+static int use_papi_presets = 1;
 
 static int test_events_only = 0;
 static char incompatible_events[PATH_MAX];
@@ -478,7 +478,7 @@ static char * parse_args (int my_argc, char **my_argv, char **cmd, char ***cmd_a
          "       [--no-io-prof] [--no-threadsync-prof] [--no-mpi-prof]\n"
 #endif /* PROFILING_SUPPORT */
 		     "       [--no-mpi-gather] [--no-summary] [--no-derived] [--no-scientific] [--no-ld-path]\n"
-		     "       [--no-compat-check] [--use-papi-presets] [--spec=spec-file] [--csv]\n"
+		     "       [--no-compat-check] [--spec=spec-file] [--csv]\n"
          "       -- <cmd> <cmd options>\n\n");
 		  print_common_opts();
 		  print_common_output_opts();
@@ -495,18 +495,16 @@ static char * parse_args (int my_argc, char **my_argv, char **cmd, char ***cmd_a
 		  printf (" --no-threadsync-prof Disable thread barrier & mutex call profiling.\n");
 		  printf (" --no-mpi-prof\tDisable MPI call profiling.\n");
 #endif /* PROFILING_SUPPORT */
-		  printf (" --no-mpi-gather\tDo not gather statistics across tasks using MPI.\n"
+		  printf (" --no-mpi-gather Do not gather statistics across tasks using MPI.\n"
               "\t\tThis option is only meaningful with --classic.\n");
 		  printf (" --no-summary\tDo not generate any summary statistics (threads/MPI).\n");
 		  printf (" --no-derived\tDo not generate any derived statistics.\n");
 		  printf (" --no-scientific Do not print output numbers in scientific notation.\n");
 		  printf (" --no-ld-path\tDo not modify the LD_LIBRARY_PATH variable at all.\n");
 		  printf (" --no-compat-check Do not test events for compatibility\n"
-              "\t\t*** You should use this option with caution, as PAPI calls\n"
+              "\t\tYou should use this option with caution, as PAPI calls\n"
               "\t\tmay not behave correctly with this option.\n"
-              "\t\tIt's provided for debugging purposes.\n");
-      printf (" --use-papi-presets Use PAPI preset events instead of\n"
-              "\t\tprocessor-specific native events. Ignored unless -a used.\n");
+              "\t\tIt is provided for debugging purposes.\n");
       printf (" -E,--spec=<spec-file> Use the user-supplied processor spec file.\n");
 		  printf("\nThe runtime loader MUST find %s.\n"
              "Set LD_LIBRARY_PATH appropriately if necessary.\n", PAPIEX_SHARED_LIBS);
