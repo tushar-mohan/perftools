@@ -53,7 +53,7 @@ test:
 
 .PHONY:
 fulltest:
-	bash -c 'source $(DESTPREF)/pperftools.sh; cd papiex; make test'
+	bash -c 'source $(DESTPREF)/perftools.sh; cd papiex; make test'
 
 .PHONY:
 help:
