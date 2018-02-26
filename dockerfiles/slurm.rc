@@ -1,0 +1,7 @@
+# slurm
+pidof slurmd > /dev/null || sudo slurmd
+pidof slurmctld > /dev/null || sudo slurmctld
+# second time is a charm: munged needs two starts to get to work
+pidof munged > /dev/null || sudo /etc/init.d/munge start
+export SLURM_NNODES=1
+export SLURM_OVERCOMMIT=1
