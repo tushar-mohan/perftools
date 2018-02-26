@@ -39,8 +39,17 @@ utilities, such `make`, GNU-toolchain, `autoconf`, MPI, etc.
 
 ### Ubuntu/Debian
 
-      $ sudo apt-get install build-essential gcc g++ gfortran libtool autoconf \
-             cmake patch curl bzip2 environment-modules
+      $ sudo apt-get install -y \
+             build-essential autoconf libtool cmake patch \
+             python curl git openmpi-bin libopenmpi-dev \
+             gfortran environment-modules bzip2
+
+### CentOS/RedHat
+
+      $ sudo yum install  -y \
+             gcc gcc-c++ make autoconf libtool \
+             python cmake git patch openmpi openmpi-devel \
+             environment-modules bzip2 curl automake
 
 
 Build the tools
