@@ -14,6 +14,7 @@ export CC MAILBUGS PERFTOOLS_VERSION
 .PHONY:
 install: install-papiex post-install
 
+include incl/make.vars
 include incl/Makefile.papiex
 include incl/Makefile.libunwind
 include incl/Makefile.hpctoolkit
@@ -62,6 +63,7 @@ help:
 	@echo "    all       - Build and install all tools, including hpctoolkit (15-20 minutes)"
 	@echo "    test      - Quick sanity test"
 	@echo "    fulltest  - Run all testst"
+	@echo "    checkdeps - Check compilers and other dependencies needed to build"
 	@echo "    distclean - Remove all build files and restore to original pristine state"
 
 .PHONY:
@@ -81,3 +83,12 @@ clobber-all: clean-all
 .PHONY:
 distclean mrproper: clobber-all
 	@rm -rf papi hpctoolkit hpctoolkit-externals libunwind $(DESTPREF)
+
+.PHONY: checkdeps
+checkdeps:
+	@echo "Checking dependencies.. "
+	@for exe in $(CC) $(CXX) $(FORTRAN) $(MPICC) $(MPIRUN) patch curl python cmake autoconf bunzip2; do \
+        echo -n "  $$exe.. "; \
+        if which $$exe > /dev/null; then echo "ok"; else echo "not found"; exit 1; fi ; \
+	done
+	@echo; echo "All build dependencies satisfied."
