@@ -275,3 +275,18 @@ If you copy-paste the URL emitted by `pbctl import` in a browser, you will be
 directed to the job page, and see something like:
 
 ![Job Detail Image](images/papiex-mpi-example-io.png "Job Detail View")
+The above view shows how the counts for `IO cycles` varies across the job processes.
+
+If you click the dropdown, you will be presented with a list of events. Corresponding
+to each event is a horizontal colored bar, with the color and width of the bar, 
+representing the *coefficient of variation* of the event across the tasks. The
+coefficient of variation is a measure of the degree of imbalance of the event
+across tasks.
+![Event Dropdown Image](images/papiex-mpi-dropdown-coeff-var.png "Coefficient of Variation")
+As you can see above, there is a dark red long bar for `PAPI_FP_OPS`, signifying a high
+degree of imbalance across tasks for the event. Sure, enough on selecting it we see as below:
+![FP Ops Image](images/papiex-mpi-fp-ops.png "Floating Point Ops Imbalance")
+
+`PAPI_FP_OPS` represents the floating point operations performance by the process. In this
+case we see the FP workload is very unevenly distributed.
+
