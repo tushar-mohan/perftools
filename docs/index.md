@@ -1,6 +1,12 @@
-[PerfTools](/about) is an integration of Open Source performance tools that collect application performance data for high-performance computing clusters.
+[PerfTools](about) is an integration of complimentary Open Source performance tools that collect application performance data for high-performance computing linux clusters.
 
-PerfTools lays an emphasis on simple <em>command-line usage</em> with a consistent syntax. It favors saving output in <em>open human-friendly text</em>, as opposed to proprietary binary formats. It also ensures the performance tools run in a  <em>text terminal</em> instead of requiring X Windows and fancy UIs.
+PerfTools consists of the following open source tools/libraries:
+
+  * papiex, [papi](http://icl.cs.utk.edu/papi/), libmonitor
+  * [hpctoolkit](http://hpctoolkit.org)
+  * ioex
+
+PerfTools lays an emphasis on simple <em>command-line usage</em> with a consistent syntax. It favors saving output in <em>open human-friendly text</em>, as opposed to proprietary binary formats. It also ensures the performance tools run in a  <em>text terminal</em> instead of requiring windowing environment.
 
 [PerfTools is on GitHub](https://github.com/tushar-mohan/perftools).
 
