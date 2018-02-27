@@ -3,4 +3,4 @@ name: PerfTools
 markdown: kramdown
 title: PerfTools
 description: Performance Tools for HPC Clusters
-show_downloads: https://github.com/tushar-mohan/perftools/archive/master.zip
+show_downloads: true
