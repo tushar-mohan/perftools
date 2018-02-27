@@ -272,4 +272,6 @@ import of mpi_wave.papiex.gulftown.5688.1.csv successful
 ```
 
 If you copy-paste the URL emitted by `pbctl import` in a browser, you will be
-directed to the job page.
+directed to the job page, and see something like:
+
+![Job Detail Image](images/papiex-mpi-example-io.png "Job Detail View")
