@@ -229,7 +229,7 @@ First, we repeat the run, but this time adding a `--csv` flag direct papiex to
 save the data in a single CSV file:
 
 ```
-      $ mpirun -np 16 papiex -a  ./mpi_wave
+      $ mpirun -np 16 papiex -a --csv ./mpi_wave
 ```
 
 If you haven't done so, [sign up for a free trial PerfBrowser Cloud account](https://perfbrowser.perftools.org/static/index.html#/signup). If you login using OAuth, make sure you set a new password. You will
@@ -251,7 +251,6 @@ The first time you use `pbctl`, you will need to authenticate:
 ```
 
 That's it! Now, let's upload the data:
-
 ```
       $ pbctl import *.csv
       input contains 33 lines (including header)
