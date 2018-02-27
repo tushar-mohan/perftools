@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
-name: PerfTools
+name: perftools
 markdown: kramdown
 title: PerfTools
 description: Performance Tools for HPC Clusters
