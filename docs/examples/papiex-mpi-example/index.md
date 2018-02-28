@@ -1,5 +1,8 @@
 In this post we will look at how `papiex` can be used to analyze an MPI application. The [program we will look at](https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c) solves a concurrent wave equation using point-to-point communications.
 
+* TOC
+{:toc}
+
 ## Download mpiwave
 ```
 $ mkdir mpiwave; cd mpiwave
@@ -8,7 +11,7 @@ $ curl https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c | sed /draw
 
 We use `sed` to remove references to a `draw_wave` function, which is not pertinent to this study.
 
-## Building Papiex
+## Build Papiex
 
 Now let's download and build `papiex`:
 ```
@@ -225,6 +228,7 @@ The [papiex summary report](sample-papiex-report.txt) contains a wealth of data 
 
 Things get more interesting if we upload data to [PerfBrowser Cloud](https://perfbrowser.perftools.org)!
 
+### Generate CSV using papiex
 First, we repeat the run, but this time adding a `--csv` flag direct papiex to
 save the data in a single CSV file:
 
@@ -232,8 +236,12 @@ save the data in a single CSV file:
 $ mpirun -np 16 papiex -a --csv ./mpi_wave
 ```
 
+### Sign up for PerfBrowser Cloud
 If you haven't done so, [sign up for a free-trial PerfBrowser Cloud account](https://perfbrowser.perftools.org/static/index.html#/signup). If you login using OAuth, make sure you set a new password. You will
 need the password in the following step, when we upload the data using `pbctl`.
+
+### Setup pbctl
+`pbctl` is a command-line utility to upload data to PerfBrowser Cloud
 
 ```
 $ curl https://raw.githubusercontent.com/tushar-mohan/pbctl/master/pbctl -o $HOME/bin/pbctl
@@ -250,7 +258,8 @@ Password:
 Login successful (token saved)
 ```
 
-That's it! Now, let's upload the data:
+### Upload data using pbctl
+Now, let's upload the data:
 ```
 $ pbctl import *.csv
 input contains 33 lines (including header)
@@ -271,6 +280,7 @@ Uploading 62879 bytes..
 import of mpi_wave.papiex.gulftown.5688.1.csv successful
 ```
 
+### View in a browser
 If you copy-paste the `webUrl` emitted by `pbctl import` in a browser, you will be
 directed to the job page, and see something like:
 
