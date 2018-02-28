@@ -1,4 +1,11 @@
-In this post we will look at how `papiex` can be used to analyze an MPI application. The [program we will look at](https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c) solves a concurrent wave equation using point-to-point communications.
+In this post we will look at how `papiex` can be used to analyze an MPI application. 
+The [program we will look at](https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c) 
+solves a concurrent wave equation using point-to-point communications.
+
+We will download and build `perftools`. We will then run the application 
+under `papiex`. You will see `papiex` generates a wealth of data. 
+Finally, we will upload the data to [PerfBrowser Cloud](https://perfbrowser.perftools.org), 
+and see some pretty plots in our browser!
 
 * TOC
 {:toc}
