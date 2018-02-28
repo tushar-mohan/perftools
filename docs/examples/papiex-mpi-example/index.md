@@ -3,17 +3,10 @@ In this post we will look at how `papiex` can be used to analyze an MPI applicat
 * TOC
 {:toc}
 
-## Download mpiwave
-```
-$ mkdir mpiwave; cd mpiwave
-$ curl https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c | sed /draw_wave/d > mpi_wave.c
-```
-
-We use `sed` to remove references to a `draw_wave` function, which is not pertinent to this study.
 
 ## Build Papiex
 
-Now let's download and build `papiex`:
+Let's download and build `papiex`:
 ```
 $ git clone https://github.com/tushar-mohan/perftools.git
 $ cd perftools
@@ -40,7 +33,9 @@ All build dependencies satisfied.
 
 If you encounter problems with build dependencies, [check out the documentation](https://github.com/tushar-mohan/perftools/blob/master/README.md#build-dependencies) for your Linux distro.
 
-Let's fire the build. We will use the defaults, and do a build of `papiex` alone, rather than the full build, which also includes HPCToolkit.
+Let's fire the build. We will use the defaults, and do a build of `papiex` and
+its dependencies. If you also want to build hpctoolkit, you should add
+`--all` argument to the following command.
 
 ```
 $ ./build.sh
@@ -81,7 +76,7 @@ basic-ng: PASSED
 
 If the test fails, you may need to [enable performance counter access for ordinary users](https://github.com/tushar-mohan/perftools/blob/master/README.md#enable-access-to-cpu-counters).
 
-Let's add the tools to our shell environment:
+Let's add perftools to our shell environment:
 ```
 $ module load /home/tushar/perftools/perftools-1.2.1/perftools
 ```
@@ -98,13 +93,20 @@ PAPI header version 5.4.1
 Build Feb 26 2018 16:07:35
 ```
 
-## Run application under papiex
+## Download and build mpiwave
+```
+$ mkdir mpiwave; cd mpiwave
+$ curl https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_wave.c | sed /draw_wave/d > mpi_wave.c
+$ mpicc -g -O2 -o mpi_wave mpi_wave.c -lm
+```
+We use `sed` to remove references to a `draw_wave` function, which is not pertinent to this study.
 
+
+## Run mpiwave under papiex
 Running the program under `papiex` is simple:
 
 ```
 $ cd mpiwave
-$ mpicc -g -O2 -o mpi_wave mpi_wave.c -lm
 $ mpirun -np 16 papiex -a  ./mpi_wave
 Starting mpi_wave using 16 tasks.
 Using 800 points on the vibrating string.
@@ -223,20 +225,19 @@ Wallclock usecs ..............................  6.11238e+06  6.11141e+06  6.1171
 ```
 The [papiex summary report](sample-papiex-report.txt) contains a wealth of data about individual ranks, threads and global job-level statistics.
 
-
-## Viewing papiex output in PerfBrowser Cloud
-
-Things get more interesting if we upload data to [PerfBrowser Cloud](https://perfbrowser.perftools.org)!
-
-### Generate CSV using papiex
-First, we repeat the run, but this time adding a `--csv` flag direct papiex to
-save the data in a single CSV file:
+### Generating CSV with papiex
+To view the papiex data in PerfBrowser Cloud, we need the output to be in
+CSV format.  We repeat the run, but this time we add `--csv` to the mix.
 
 ```
 $ mpirun -np 16 papiex -a --csv ./mpi_wave
 ```
 
-### Sign up for PerfBrowser Cloud
+
+## Visualizing in PerfBrowser Cloud
+
+Things get more interesting if we upload data to [PerfBrowser Cloud](https://perfbrowser.perftools.org)!
+
 If you haven't done so, [sign up for a free-trial PerfBrowser Cloud account](https://perfbrowser.perftools.org/static/index.html#/signup). If you login using OAuth, make sure you set a new password. You will
 need the password in the following step, when we upload the data using `pbctl`.
 
@@ -258,7 +259,7 @@ Password:
 Login successful (token saved)
 ```
 
-### Upload data using pbctl
+### Upload papiex csv using pbctl
 Now, let's upload the data:
 ```
 $ pbctl import *.csv
