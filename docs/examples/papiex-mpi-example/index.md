@@ -4,9 +4,9 @@ In this post we will look at how `papiex` can be used to analyze an MPI applicat
 {:toc}
 
 
-## Build Papiex
+## Build perftools
 
-Let's download and build `papiex`:
+Let's download and build `perftools`:
 ```
 $ git clone https://github.com/tushar-mohan/perftools.git
 $ cd perftools
@@ -62,7 +62,7 @@ make fulltest
 =======================================================================
 ```
 
-So, the tools were built, and installed in the subdirectory `perftools-1.2.1`.
+So perftools were built, and installed in the subdirectory `perftools-1.2.1`.
 
 Running a sanity test:
 ```
