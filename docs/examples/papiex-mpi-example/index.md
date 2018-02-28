@@ -223,7 +223,7 @@ The [papiex summary report](sample-papiex-report.txt) contains a wealth of data 
 
 ## Viewing papiex output in PerfBrowser Cloud
 
-Things get more interesting if we upload data to the [PerfBrowser Cloud]!
+Things get more interesting if we upload data to [PerfBrowser Cloud](https://perfbrowser.perftools.org)!
 
 First, we repeat the run, but this time adding a `--csv` flag direct papiex to
 save the data in a single CSV file:
@@ -232,7 +232,7 @@ save the data in a single CSV file:
 $ mpirun -np 16 papiex -a --csv ./mpi_wave
 ```
 
-If you haven't done so, [sign up for a free trial PerfBrowser Cloud account](https://perfbrowser.perftools.org/static/index.html#/signup). If you login using OAuth, make sure you set a new password. You will
+If you haven't done so, [sign up for a free-trial PerfBrowser Cloud account](https://perfbrowser.perftools.org/static/index.html#/signup). If you login using OAuth, make sure you set a new password. You will
 need the password in the following step, when we upload the data using `pbctl`.
 
 ```
@@ -271,7 +271,7 @@ Uploading 62879 bytes..
 import of mpi_wave.papiex.gulftown.5688.1.csv successful
 ```
 
-If you copy-paste the URL emitted by `pbctl import` in a browser, you will be
+If you copy-paste the `webUrl` emitted by `pbctl import` in a browser, you will be
 directed to the job page, and see something like:
 
 ![Job Detail Image](images/papiex-mpi-example-io.png "Job Detail View")
