@@ -309,3 +309,7 @@ degree of imbalance across tasks for the event. Sure, enough on selecting it we 
 
 `PAPI_FP_OPS` represents the floating point operations performance by the process. In this
 case we see the FP workload is very unevenly distributed.
+
+## Useful Links
+ * [perftools home](/)
+ * [Use hpcrun-flat to gather data and viewing in PerfBrowser Cloud](/examples/hpcrun-mpi-example/)

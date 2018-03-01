@@ -13,7 +13,8 @@ output in open readable text, as opposed to proprietary binary formats.
 It also selects tools that run in a terminal, rather that requiring a 
 windowing environment.
 
-Get started using PerfTools by [following this post](examples/papiex-mpi-example/)
-
-You might want to check out [PerfBrowser Cloud](https://perfbrowser.perftools.org/),
-which allows you to visualize (in a browser) performance data collected by PerfTools.
+Get started using PerfTools by following the following posts in sequence.
+These posts explain how to build `perftools`, gather data using the tools,
+and finally viewing in [PerfBrowser Cloud](https://perfbrowser.perftools.org/)
+ * [analyzing a parallel program with papiex](examples/papiex-mpi-example/)
+ * [profiling with hpcrun-flat](examples/papiex-mpi-example/)
