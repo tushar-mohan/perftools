@@ -15,6 +15,6 @@ windowing environment.
 
 Get started using PerfTools by following the following posts in sequence.
 These posts explain how to build `perftools`, gather data using the tools,
-and finally viewing in [PerfBrowser Cloud](https://perfbrowser.perftools.org/)
- * [analyzing a parallel program with papiex](examples/papiex-mpi-example/)
+and finally view in [PerfBrowser Cloud](https://perfbrowser.perftools.org/).
+ * [using papiex to count cpu metrics for an MPI program](examples/papiex-mpi-example/)
  * [profiling with hpcrun-flat](examples/papiex-mpi-example/)
