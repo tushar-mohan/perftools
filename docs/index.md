@@ -18,4 +18,4 @@ These posts explain how to build `perftools`, gather data using perftools,
 and finally how to use [PerfBrowser Cloud](https://perfbrowser.perftools.org/) to
 visualize the data.
  * [using papiex to count cpu metrics for an MPI program](examples/papiex-mpi-example/)
- * [profiling with hpcrun-flat](examples/papiex-mpi-example/)
+ * [profiling with hpcrun-flat](examples/hpcrun-mpi-example/)
