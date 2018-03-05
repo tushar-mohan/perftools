@@ -156,7 +156,9 @@ If you haven't done so, [sign up for a free-trial PerfBrowser Cloud account](htt
 
 Make sure your `pbctl` binary is setup. If not, it's easy:
 ```
-$ curl -s https://raw.githubusercontent.com/tushar-mohan/pbctl/master/pbctl -o $HOME/bin/pbctl; pbctl version
+$ curl -s https://raw.githubusercontent.com/tushar-mohan/pbctl/master/pbctl -o $HOME/bin/pbctl
+$ chmod +x $HOME/bin/pbctl
+$ pbctl version
 1.1.4
 ```
 
