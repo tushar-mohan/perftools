@@ -312,4 +312,4 @@ case we see the FP workload is very unevenly distributed.
 
 ## Useful Links
  * [perftools home](/)
- * [gathering data with hpcrun-flat and visualizing in PerfBrowser Cloud](/examples/hpcrun-mpi-example/)
+ * [profiling with hpcrun-flat](/examples/hpcrun-mpi-example/)

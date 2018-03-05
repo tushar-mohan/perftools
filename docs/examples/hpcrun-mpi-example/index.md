@@ -207,4 +207,4 @@ The `proc` corresponds to profiling by functions.
 
 ## Useful Links
  * [perftools home](/)
- * [using papiex to gather data and visualizing in PerfBrowser Cloud](/examples/papiex-mpi-example/)
+ * [counting cpu metrics with papiex](/examples/papiex-mpi-example/)
