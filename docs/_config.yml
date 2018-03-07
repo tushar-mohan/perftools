@@ -4,3 +4,5 @@ title: perftools
 description: Performance Tools for HPC Clusters
 show_downloads: true
 google_analytics: UA-115289833-1
+gems:
+  - jekyll-last-modified-at
