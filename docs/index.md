@@ -20,6 +20,4 @@ to visualize the data.
  * [counting cpu metrics with papiex](examples/papiex-mpi-example/)
  * [profiling with hpcrun-flat](examples/hpcrun-mpi-example/)
 
-<small>{{ page.last_modified_at }}</small>
-
-&copy; {{ site.name }} {{ site.time | date: '%Y' }} | All Rights Reserved.
+<small>&copy; {{ perftools.org }} {{ site.time | date: '%Y' }} | All Rights Reserved.</small>
