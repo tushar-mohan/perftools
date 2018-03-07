@@ -25,7 +25,8 @@
     <section class="main-content">
       {{ content }}
 
-      {% include links.md %}
+      {% capture links_include %}{% include links.md %}{% endcapture %}
+      {{ links_include | markdownify }}
 
       <footer class="site-footer">
         {% include footer.html %}
