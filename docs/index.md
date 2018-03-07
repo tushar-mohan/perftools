@@ -13,10 +13,8 @@ output in open readable text, as opposed to proprietary binary formats.
 It also selects tools that run in a terminal, rather that requiring a 
 windowing environment.
 
-Start using `perftools` by following the posts below in sequence.
-These posts explain how to build `perftools`, gather data using it,
-and finally how to use [PerfBrowser Cloud](https://perfbrowser.perftools.org/)
-to visualize the data.
- * [counting cpu metrics with papiex](examples/papiex-mpi-example/)
- * [profiling with hpcrun-flat](examples/hpcrun-mpi-example/)
-
+You can learn how to use `perftools` by following 
+[this post](/examples/papiex-mpi-example/) and 
+[this one](/examples/hpcrun-mpi-example/). These posts explain how to build 
+`perftools`, gather data using it, and finally how to use 
+[PerfBrowser Cloud](https://perfbrowser.perftools.org/) to visualize the data.

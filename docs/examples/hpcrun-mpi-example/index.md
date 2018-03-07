@@ -203,8 +203,3 @@ in the calls within the `openmpi library`.
 If you select `file` option radio button, you will see a breakup by file as below.
 The `proc` corresponds to profiling by functions.
 ![File profile](images/hpcrun-mpi-file.png "hpcrun-flat file profile")
-
-
-## Useful Links
- * [perftools home](/)
- * [counting cpu metrics with papiex](/examples/papiex-mpi-example/)
