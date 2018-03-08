@@ -1,6 +1,6 @@
-PerfTools
+perftools
 =========
-*PerfTools* is a collection of performance tools for HPC environments.
+`perftools` is a collection of performance tools for HPC clusters.
 The tools allow low-overhead measurement of CPU metrics, memory usage,
 I/O and MPI. 
 
@@ -9,14 +9,14 @@ This suite consists of:
 * [papiex](papiex/README.md) - provides a simple and uniform interface to collect 
 detailed job, process and thread-level statistics using [PAPI](http://icl.cs.utk.edu//papi). 
 * ioex - collects and displays I/O statistics in uninstrumented programs (coming soon!)
-* [hpctoolkit](http://hpctoolkit.org/) - PerfTools provides a build of Rice University's
+* [hpctoolkit](http://hpctoolkit.org/) - `perftools` provides a build of Rice University's
 HPCToolKit, along with helper scripts to facilitate compatibility with PerfBrowser.
 
 
 Dependencies
 ------------
 The following, publicly-available Open Source softwares may be used as
-part of the *Perftools* build process. Some of them are patched to support 
+part of the `perftools` build process. Some of them are patched to support 
 additional functionality. They are included with the distribution or if not
 found, downloaded automatically from the Internet and compiled.
 
@@ -135,13 +135,18 @@ For Bourne and C-shell users, perform one of the following:
     $ source /path/to/perftools.sh
     $ source /path/to/perftools.csh
 
-Then you are free to run:
+Then you can run:
 
     $ papiex ...
     $ mpirun ... papiex ...
 
 
-Documentation is available in the form of man pages and a Wiki here.
+Documentation
+-------------
+
+Manpages are available on building and install `perftools`. 
+Also check out the [website documentation](https://perftools.org)
+and the [online resources to get started](https://perftools.org/#useful-links).
 
 
 Platforms Tested
@@ -164,6 +169,6 @@ License
 -------
 MIT
 
-*Note* - During the build third-party software is downloaded that maybe
-covered under separate licenses. Please refer to individual software
+*Note* - During the `perftools` build third-party software is downloaded 
+that is covered under separate licenses. Please refer to individual software
 components, such as PAPI and HPCToolkit for their respective licenses.
