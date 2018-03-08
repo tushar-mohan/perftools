@@ -1,6 +1,0 @@
-I/O stats:
-^File.*./zero.*$
-^\s*MPI_File_write.*$
-^\s*MPI_File_read.*$
-^\s*bytes.*5\.24288e\+06$
-^\s*MB/s.*\d{1,3}$

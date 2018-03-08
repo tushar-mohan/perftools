@@ -1,8 +1,0 @@
-I/O stats:
-^File.*zero.*$
-^\s*lseek.*$
-^\s*calls.*12$
-^\s*rewinds.*0$
-^\s*abs seek/call.*7\.86432e\+06$
-^\s*.*between seeks.*1\.04858e\+06$
-^\s*access.*SEQUENTIAL$

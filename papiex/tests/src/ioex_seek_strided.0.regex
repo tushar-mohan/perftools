@@ -1,9 +1,0 @@
-I/O stats:
-^File.*zero.*$
-^\s*lseek.*$
-^\s*calls.*34$
-^\s*rewinds.*0$
-^\s*abs seek/call.*2\.09715e\+06$
-^\s*.*between seeks.*1\.04858e\+06$
-^\s*access.*STRIDED$
-^\s*stride.*2\.09715e\+06$

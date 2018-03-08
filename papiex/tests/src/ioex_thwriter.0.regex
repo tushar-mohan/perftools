@@ -1,9 +1,0 @@
-I/O stats:
-^File.*zero.*$
-^\s*fwrite.*$
-^File.*zero_0.*$
-^File.*zero_1.*$
-^File.*zero_2.*$
-^\s*calls.*10$
-^\s*bytes.*1\.04858e\+07$
-^\s*MB/s.*\d{1,3}$

@@ -1,5 +1,0 @@
-ifneq (,$(findstring USE_MPI,$(DEFINES)))
-	ifneq (,$(MPI_INC_PATH))
-		DEFINES += -I$(MPI_INC_PATH)
-	endif
-endif

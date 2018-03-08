@@ -1,8 +1,0 @@
-^Cycles\s*\.+\s*\S{4,12}$
-^\s*Function Thread at 0x\S+, File: pthreads.c, Function: Thread, Line: 8$
-^\s+Cycles\s*\.+\s*\S{4,12}$
-\s+min\s+max\s+mean
-^Proc cycles\s*:\s+\S+\s+\S+\s+\S+
-^Proc cycles\s*\.+\s+\S{4,12}$
-\s+Executions.*2$
-\s+Proc cycles\s*\.+\s+\S{4,12}$

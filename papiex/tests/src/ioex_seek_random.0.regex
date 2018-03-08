@@ -1,8 +1,0 @@
-I/O stats:
-^File.*zero.*$
-^\s*lseek.*$
-^\s*calls.*18$
-^\s*rewinds.*0$
-^\s*abs seek/call.*8\.38861e\+06$
-^\s*.*between seeks.*699050$
-^\s*access.*RANDOM$

@@ -1,6 +1,0 @@
-^Cycles\s*\.+\s*\S{4,12}$
-^\s*Function one at .*\S+ File:.*\S+ Function: one, Line: \d+$
-^\s+Cycles\s*\.+\s*\S{4,12}$
-^\s*Function two at .*\S+ File:.*\S+ Function: two, Line: \d+$
-\s+Executions\s*\.+\s+2$
-\s+Executions\s*\.+\s+1$
