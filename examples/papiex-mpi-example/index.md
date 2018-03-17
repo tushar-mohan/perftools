@@ -258,7 +258,8 @@ $ pbctl version
 1.1.4
 ```
 
-The first time you use `pbctl`, you will need to authenticate:
+The first time you use `pbctl`, you will need to authenticate using your
+PerfBrowser Cloud login and password:
 ```
 $ pbctl login
 Username or email: test123@example.com
