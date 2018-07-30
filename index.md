@@ -14,7 +14,7 @@ It also selects tools that run in a terminal, rather that requiring a
 windowing environment.
 
 You can learn how to use `perftools` by following 
-[this post](/examples/papiex-mpi-example/) and 
-[this one](/examples/hpcrun-mpi-example/). These posts explain how to build 
+[this post](examples/papiex-mpi-example/) and 
+[this one](examples/hpcrun-mpi-example/). These posts explain how to build 
 `perftools`, gather data using it, and finally how to use 
 [PerfBrowser Cloud](https://perfbrowser.perftools.org/) to visualize the data.
